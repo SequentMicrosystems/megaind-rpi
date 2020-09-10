@@ -4,7 +4,7 @@
 
 This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/index.php?route=product/product&path=20&product_id=52)
 
-![MEGA-IND](res/megaind.jpg)
+![MEGA-IND](res/industrial.jpg)
 
 ## Setup
 
