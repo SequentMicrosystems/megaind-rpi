@@ -12,6 +12,11 @@ This is the python library to control the [ Industrial Automation Card for Raspb
 ~$ cd megaind-rpi/python/
 ~/megaind-rpi/python$ sudo python setup.py install
 ```
+For Python3.X change last line with:
+```
+~/megaind-rpi/python$ sudo python3 setup.py install
+```
+
 ## Update
 
 ```bash
@@ -35,7 +40,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 0.003
 >>>
 ```
-Checkout the [tests](https://github.com/SequentMicrosystems/megaind-rp/python/tests) subfolder for more usage examples. 
+Checkout the [/tests](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python/tests) subfolder for more usage examples. 
 All tests assume that one card with no address jumpers (stack level = 0) is present.
 
 
