@@ -33,4 +33,8 @@ If you clone the repository any update can be made with the following commands:
 ~/megaind-rpi$ git pull
 ~/megaind-rpi$ sudo make install
 ```  
-Checkout update/ subfolder for firmware update.
+Checkout [Python Library](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python)
+
+Checkout [firmware update instructions](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/update).
+
+The board can act as Modbus RTU slave device, checkout [modbus instructions](https://github.com/SequentMicrosystems/megaind-rpi/blob/master/MODBUS.md).
