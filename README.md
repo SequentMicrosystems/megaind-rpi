@@ -21,7 +21,7 @@ Enable I2C communication first:
 ~/megaind-rpi$ sudo make install
 ```
 
-Now you can access all the functions of the BAS board through the command "megaind". Use -h option for help:
+Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/industrial-automation-stackable-card-for-raspberry-pi/) through the command "megaind". Use -h option for help:
 ```bash
 ~$ megaind -h
 ```
