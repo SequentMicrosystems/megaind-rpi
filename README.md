@@ -8,7 +8,7 @@ This is the command to control [Industrial Automation Stackable Card for Raspber
 
 ## Setup
 
-Don't forget to enable I2C communication:
+Enable I2C communication first:
 ```bash
 ~$ sudo raspi-config
 ```
