@@ -21,7 +21,7 @@ Run the fallowing command:
 In order to see the node in the palette and use-it you need to restart node-red. If you run node-red as a service:
  ```bash
  ~$ node-red-stop
- ~& node-red-start
+ ~$ node-red-start
  ```
 
 ## Usage
