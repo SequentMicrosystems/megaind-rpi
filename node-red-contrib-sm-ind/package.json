@@ -1,0 +1,35 @@
+{
+  "name": "node-red-contrib-sm-ind",
+  "version": "1.0.0",
+  "bundleDependencies": false,
+  "dependencies": {
+    "i2c-bus": "^5.2.0"
+  },
+  "deprecated": false,
+  "description": "A Node-RED collection of nodes to control Sequent Microsystems Industrial Automation Card",
+  "main": "ind.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sequent Microsystems",
+  "license": "MIT",
+  "node-red" : {
+    "nodes": {
+        "bas": "ind.js"
+      }
+  },
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/SequentMicrosystems/megaind-rpi/node-red-contrib-sm-ind"
+  },
+  "keywords": [
+    "node-red",
+    "node-red-contrib",
+    "i2c",
+    "industrial",
+    "automation",
+    "0-10V",
+    "4-20mA",
+    "MODBUS"
+  ]
+}
