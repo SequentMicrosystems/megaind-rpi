@@ -1,7 +1,7 @@
 
 # megaind
 
-This is the python library to control the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/industrial-automation-stackable-card-for-raspberry-pi/). 
+This is the python library to control the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/raspberry-pi-industrial-automation/). 
 
 ## Install
 
