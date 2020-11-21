@@ -2,7 +2,7 @@
 
 # megaind-rpi
 
-This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/industrial-automation-stackable-card-for-raspberry-pi/).
+This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/raspberry-pi-industrial-automation/).
 
 ![MEGA-IND](res/IND.jpg)
 
@@ -21,7 +21,7 @@ Enable I2C communication first:
 ~/megaind-rpi$ sudo make install
 ```
 
-Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/industrial-automation-stackable-card-for-raspberry-pi/) through the command "megaind". Use -h option for help:
+Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/product/raspberry-pi-industrial-automation/) through the command "megaind". Use -h option for help:
 ```bash
 ~$ megaind -h
 ```
