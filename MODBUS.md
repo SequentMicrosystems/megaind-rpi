@@ -1,8 +1,8 @@
-[![megaind-rpi](res/sequent.jpg)](https://sequentmicrosystems.com/index.php?route=product/product&path=33&product_id=65)
+[![megaind-rpi](res/sequent.jpg)](https://sequentmicrosystems.com)
 
 # Modbus
 
-The [Building](https://sequentmicrosystems.com/index.php?route=product/product&path=33&product_id=52) Automation I/O Expansion cards for Raspberry Pi can be accessed thru Modbus RTU protocol over RS-485 port.
+The [Industrial](https://sequentmicrosystems.com/product/raspberry-pi-industrial-automation/) Automation I/O Expansion cards for Raspberry Pi can be accessed thru Modbus RTU protocol over RS-485 port.
 You can set-up the RS-485 port with **megaind** command.
 
 Example:
