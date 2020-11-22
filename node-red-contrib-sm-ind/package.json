@@ -15,7 +15,7 @@
   "license": "MIT",
   "node-red" : {
     "nodes": {
-        "bas": "ind.js"
+        "ind": "ind.js"
       }
   },
    "repository": {
