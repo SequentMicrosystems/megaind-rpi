@@ -377,6 +377,7 @@ def wdtSetPeriod(stack, val):
 
 
 def wdtReload(stack):
+    RELOAD_KEY = 0xCA
     ret = 1
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
