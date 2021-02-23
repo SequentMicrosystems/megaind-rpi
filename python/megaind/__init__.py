@@ -1,4 +1,5 @@
 import smbus
+import struct
 
 __HW_ADD_BASE = 0x50
 VOLT_TO_MILIVOLT = 1000.0
@@ -10,9 +11,27 @@ def checkStack(stack):
     return __HW_ADD_BASE + stack
 
 
-def  checkChannel(ch, limit = 4):
-    if ch < 1 or ch > limit :
+def checkChannel(ch, limit=4):
+    if ch < 1 or ch > limit:
         raise ValueError('Invalid channel number!')
+
+
+def getWord(bus, hwAdd, add):
+    retry = 0
+    try:
+        buff = bus.read_i2c_block_data(hwAdd, add, 2)
+        while bytearray(buff)[1] == 0xff and retry < 3:
+            buff = bus.read_i2c_block_data(hwAdd, add, 2)
+            retry += 1
+        if bytearray(buff)[1] == 0xff:
+            bus.close()
+            raise Exception("Fail to read with exception IO error")
+        val = bytearray(buff)[0] + 256 * bytearray(buff)[1]
+        # val = bus.read_word_data(hwAdd, I4_20_IN_VAL1_ADD + (2 * (channel - 1)))
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to read with exception " + str(e))
+    return val
 
 
 # Diagnose functions
@@ -33,7 +52,7 @@ def getFwVer(stack):
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
     bus.close()
-    return major + minor/100
+    return major + minor / 100
 
 
 def getRaspVolt(stack):
@@ -45,19 +64,15 @@ def getRaspVolt(stack):
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
     bus.close()
-    return val/VOLT_TO_MILIVOLT
+    return val / VOLT_TO_MILIVOLT
 
 
 def getPowerVolt(stack):
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, I2C_MEM_DIAG_24V)
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, I2C_MEM_DIAG_24V)
     bus.close()
-    return val/VOLT_TO_MILIVOLT
+    return val / VOLT_TO_MILIVOLT
 
 
 def getCpuTemp(stack):
@@ -82,11 +97,7 @@ def get0_10In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, U0_10_IN_VAL1_ADD + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, U0_10_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT
 
@@ -95,11 +106,7 @@ def getpm10In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, U_PM_10_IN_VAL1_ADD + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, U_PM_10_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT - 10
 
@@ -108,11 +115,7 @@ def get0_10Out(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, U_0_10_OUT_VAL1_ADD + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, U_0_10_OUT_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT
 
@@ -141,11 +144,7 @@ def get4_20In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, I4_20_IN_VAL1_ADD + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, I4_20_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / 1000.0
 
@@ -154,11 +153,7 @@ def get4_20Out(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, I4_20_OUT_VAL1_ADD + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, I4_20_OUT_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / 1000.0
 
@@ -196,7 +191,7 @@ def getOptoCh(stack, channel):
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
     bus.close()
-    if (1 << (channel -1)) & val:
+    if (1 << (channel - 1)) & val:
         return 1
     return 0
 
@@ -263,7 +258,7 @@ def setOptoRisingCountEnable(stack, channel, state):
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
     if state == 0:
-        val &=  ~(1 << (channel - 1))
+        val &= ~(1 << (channel - 1))
     else:
         val |= 1 << (channel - 1)
     try:
@@ -314,7 +309,7 @@ def setOdPWM(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    if value < 0 or value > 100: #prcent
+    if value < 0 or value > 100:  # prcent
         raise ValueError("Invalid value!")
     try:
         bus.write_word_data(hwAdd, I2C_MEM_OD_PWM1 + (2 * (channel - 1)), int(value * 100))
@@ -328,11 +323,7 @@ def getOdPWM(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
-    try:
-        val = bus.read_word_data(hwAdd, I2C_MEM_OD_PWM1 + (2 * (channel - 1)))
-    except Exception as e:
-        bus.close()
-        raise Exception("Fail to read with exception " + str(e))
+    val = getWord(bus, hwAdd, I2C_MEM_OD_PWM1 + (2 * (channel - 1)))
     bus.close()
     return val / 100.0
 
@@ -420,7 +411,7 @@ def wdtGetDefaultPeriod(stack):
 def wdtSetOffInterval(stack, val):
     ret = 1
     hwAdd = checkStack(stack)
-    if 10 > val or val >  WDT_MAX_POWER_OFF_INTERVAL:
+    if 10 > val or val > WDT_MAX_POWER_OFF_INTERVAL:
         raise ValueError('Invalid interval value [2..4147200]')
     bus = smbus.SMBus(1)
     buff = [0, 0, 0, 0]
