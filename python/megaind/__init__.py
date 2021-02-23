@@ -20,14 +20,7 @@ def getWord(bus, hwAdd, add):
     retry = 0
     try:
         buff = bus.read_i2c_block_data(hwAdd, add, 2)
-        while bytearray(buff)[1] == 0xff and retry < 3:
-            buff = bus.read_i2c_block_data(hwAdd, add, 2)
-            retry += 1
-        if bytearray(buff)[1] == 0xff:
-            bus.close()
-            raise Exception("Fail to read with exception IO error")
         val = bytearray(buff)[0] + 256 * bytearray(buff)[1]
-        # val = bus.read_word_data(hwAdd, I4_20_IN_VAL1_ADD + (2 * (channel - 1)))
     except Exception as e:
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
@@ -52,7 +45,7 @@ def getFwVer(stack):
         bus.close()
         raise Exception("Fail to read with exception " + str(e))
     bus.close()
-    return major + minor / 100
+    return major + minor / 100.0
 
 
 def getRaspVolt(stack):
