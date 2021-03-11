@@ -413,7 +413,7 @@ def wdtSetOffInterval(stack, val):
     buff[2] = 0xff & (val >> 16)
     buff[3] = 0xff & (val >> 24)
     try:
-        bus.write_i2c_block_data(HW_ADD + stack, I2C_MEM_WDT_POWER_OFF_INTERVAL_SET_ADD, buff)
+        bus.write_i2c_block_data(hwAdd, I2C_MEM_WDT_POWER_OFF_INTERVAL_SET_ADD, buff)
     except Exception as e:
         bus.close()
         raise ValueError(e)
@@ -425,7 +425,7 @@ def wdtGetOffInterval(stack):
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
     try:
-        buff = bus.read_i2c_block_data(HW_ADD + stack, I2C_MEM_WDT_POWER_OFF_INTERVAL_GET_ADD, 4)
+        buff = bus.read_i2c_block_data(hwAdd, I2C_MEM_WDT_POWER_OFF_INTERVAL_GET_ADD, 4)
         val = buff[0] + (buff[1] << 8) + (buff[2] << 16) + (buff[3] << 24)
     except Exception as e:
         bus.close()
@@ -438,7 +438,7 @@ def wdtGetResetCount(stack):
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
     try:
-        val = bus.read_word_data(HW_ADD + stack, I2C_MEM_WDT_RESET_COUNT_ADD)
+        val = bus.read_word_data(hwAdd, I2C_MEM_WDT_RESET_COUNT_ADD)
     except Exception as e:
         bus.close()
         raise ValueError(e)
