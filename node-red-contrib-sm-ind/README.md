@@ -1,6 +1,6 @@
 # node-red-contrib-sm-ind
 
-This is the node-red node to control Sequent Microsystems [Industrial Automation](https://sequentmicrosystems.com/product/raspberry-pi-industrial-automation/) card.
+This is the node-red node to control Sequent Microsystems [Industrial Automation](https://sequentmicrosystems.com/products/raspberry-pi-industrial-automation) card.
 
 ## Install
 
