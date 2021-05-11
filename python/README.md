@@ -336,7 +336,7 @@ stack - stack level of the megaind  card (selectable from address jumpers [0..7]
 
 return (year, month, day, hour, minute, seconds)
 
-## rtcSet(stack, y, mo, d, h, m, s)
+### rtcSet(stack, y, mo, d, h, m, s)
 Set the RTC date and time
 
 stack - stack level of the megaind  card (selectable from address jumpers [0..7])
