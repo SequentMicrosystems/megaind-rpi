@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
   name = 'megaind',
   packages=setuptools.find_packages(),
-  version = '1.0.2',
+  version = '1.0.3',
   license='MIT',
   description = 'Library to control Sequent Microsystems Industrial Automation Card',
   author = 'Sequent Microsystems',
