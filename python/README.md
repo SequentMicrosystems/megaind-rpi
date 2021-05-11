@@ -326,3 +326,29 @@ Return the numbers of Raspberry re-powers performed by the watchdog
 stack - stack level of the megaind  card (selectable from address jumpers [0..7])
 
 return - [0..65535]
+
+## RTC Functions
+
+### rtcGet(stack)
+Return the RTC date and time as a list
+
+stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+return (year, month, day, hour, minute, seconds)
+
+## rtcSet(stack, y, mo, d, h, m, s)
+Set the RTC date and time
+
+stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+y - year between 2000..2255 or between 0..255
+
+mo - month 1..12
+
+d - day
+
+h - hour
+
+m - minutes
+
+s - seconds
