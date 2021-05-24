@@ -15,6 +15,6 @@ typedef struct
 	const char *example;
 } CliCmdType;
 
-const CliCmdType *gCmdArray[];
+
 
 #endif

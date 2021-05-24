@@ -2,6 +2,7 @@
 #define RELAY8_H_
 
 #include <stdint.h>
+#include "cli.h"
 
 #define ADC_RAW_VAL_SIZE	2
 #define DAC_MV_VAL_SIZE		2
@@ -133,6 +134,8 @@ enum CAL_CH_START_ID{
 #define ERROR	-1
 #define OK		0
 #define FAIL	-1
+#define ARG_CNT_ERR -3
+#define COMM_ERR -4
 
 #define SLAVE_OWN_ADDRESS_BASE 0x50
 
@@ -157,4 +160,53 @@ typedef struct
 		unsigned int mbStopB :2;
 		unsigned int add:8;
 	} ModbusSetingsType;
+	
+	
+int doBoardInit(int stack);
+	
+//opto CLI structures
+	const CliCmdType CMD_OPTO_READ;
+	const CliCmdType CMD_COUNTER_READ;
+	const CliCmdType CMD_COUNTER_RST;
+	const CliCmdType CMD_EDGE_READ;
+	const CliCmdType CMD_EDGE_WRITE;
+	
+// watchdog CLI structures	
+	const CliCmdType CMD_WDT_RELOAD;
+	const CliCmdType CMD_WDT_SET_PERIOD;
+	const CliCmdType CMD_WDT_GET_PERIOD;
+	const CliCmdType CMD_WDT_SET_INIT_PERIOD;
+	const CliCmdType CMD_WDT_GET_INIT_PERIOD;
+	const CliCmdType CMD_WDT_SET_OFF_PERIOD;
+	const CliCmdType CMD_WDT_GET_OFF_PERIOD;
+	
+// RTC CLI structures
+	const CliCmdType CMD_RTC_GET;
+	const CliCmdType CMD_RTC_SET;
+	
+// RS-485 CLI structures
+	const CliCmdType CMD_RS485_READ;
+	const CliCmdType CMD_RS485_WRITE;
+	
+// analog in/out CLI structures
+	const CliCmdType CMD_UOUT_READ;
+	const CliCmdType CMD_IOUT_READ;
+	const CliCmdType CMD_OD_READ;
+	const CliCmdType CMD_UOUT_WRITE;
+	const CliCmdType CMD_IOUT_WRITE;
+	const CliCmdType CMD_OD_WRITE;
+	const CliCmdType CMD_UIN_READ;
+	const CliCmdType CMD_PMUIN_READ;
+	const CliCmdType CMD_IIN_READ;
+	const CliCmdType CMD_UIN_CAL;
+	const CliCmdType CMD_IIN_CAL;
+	const CliCmdType CMD_UIN_CAL_RST;
+	const CliCmdType CMD_IIN_CAL_RST;
+	const CliCmdType CMD_UOUT_CAL;
+	const CliCmdType CMD_IOUT_CAL;
+	const CliCmdType CMD_UOUT_CAL_RST;
+	const CliCmdType CMD_IOUT_CAL_RST;
+	
+	
+	
 #endif //RELAY8_H_
