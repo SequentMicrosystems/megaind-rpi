@@ -11,7 +11,7 @@ CFLAGS	= $(DEBUG) -Wall -Wextra $(INCLUDE) -Winline -pipe
 LDFLAGS	= -L$(DESTDIR)$(PREFIX)/lib
 LIBS    = -lpthread -lrt -lm -lcrypt
 
-SRC	=	megaind.c comm.c thread.c
+SRC	=	src/megaind.c src/comm.c src/thread.c
 
 OBJ	=	$(SRC:.c=.o)
 
