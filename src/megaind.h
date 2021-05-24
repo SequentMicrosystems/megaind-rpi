@@ -147,16 +147,6 @@ typedef enum
 	STATE_COUNT
 } OutStateEnumType;
 
-typedef struct
-{
- const char* name;
- const int namePos;
- void(*pFunc)(int, char**);
- const char* help;
- const char* usage1;
- const char* usage2;
- const char* example;
-}CliCmdType;
 
 typedef struct
 	__attribute__((packed))
@@ -167,5 +157,4 @@ typedef struct
 		unsigned int mbStopB :2;
 		unsigned int add:8;
 	} ModbusSetingsType;
-const CliCmdType* gCmdArray[];
 #endif //RELAY8_H_
