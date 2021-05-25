@@ -27,18 +27,22 @@ Acces level Read/Write, Size 1 bit
 
 | Device function | Register Address | Modbus Address |
 | --- | --- | --- |
-| RELAY_1 | 0001 | 0x00 |
-| RELAY_2 | 0002 | 0x01 |
-| RELAY_3 | 0003 | 0x02 |
-| RELAY_4 | 0004 | 0x03 |
-| OPTO_RISING_COUNT_1 | 0005 | 0x05 |
-| OPTO_RISING_COUNT_2 | 0006 | 0x06 |
-| OPTO_RISING_COUNT_3 | 0007 | 0x07 |
-| OPTO_RISING_COUNT_4 | 0008 | 0x08 |
-| OPTO_FALLING_COUNT_1 | 0009 | 0x09 |
-| OPTO_FALLING_COUNT_2 | 0010 | 0x0a |
-| OPTO_FALLING_COUNT_3 | 0011 | 0x0b |
-| OPTO_FALLING_COUNT_4 | 0012 | 0x0c |
+| OPEN_DRAIN_1 | 0001 | 0x00 |
+| OPEN_DRAIN_2 | 0002 | 0x01 |
+| OPEN_DRAIN_3 | 0003 | 0x02 |
+| OPEN_DRAIN_4 | 0004 | 0x03 |
+| LED_1 | 0005 | 0x04 |
+| LED_2 | 0006 | 0x05 |
+| LED_3 | 0007 | 0x06 |
+| LED_4 | 0008 | 0x07 |
+| OPTO_RISING_COUNT_1 | 0009 | 0x08 |
+| OPTO_RISING_COUNT_2 | 0010 | 0x09 |
+| OPTO_RISING_COUNT_3 | 0011 | 0x0a |
+| OPTO_RISING_COUNT_4 | 0012 | 0x0b |
+| OPTO_FALLING_COUNT_1 | 0013 | 0x0c |
+| OPTO_FALLING_COUNT_2 | 0014 | 0x0d |
+| OPTO_FALLING_COUNT_3 | 0015 | 0x0e |
+| OPTO_FALLING_COUNT_4 | 0016 | 0x0f |
 
 OPTO_RISING_COUNT coil enable/disable counting on rising edge of coresponding opto channel 
 OPTO_FALLING_COUNT coil enable/disable counting on falling edge of coresponding opto channel 
