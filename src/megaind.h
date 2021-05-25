@@ -128,6 +128,7 @@ enum CAL_CH_START_ID{
 #define U_OUT_CH_NR_MAX		4
 #define U_IN_CH_NR_MAX		4
 #define I_IN_CH_NR_MAX		4
+#define LED_CH_NR_MAX		4
 
 #define OD_PWM_VAL_MAX	10000
 
@@ -207,6 +208,12 @@ int doBoardInit(int stack);
 	const CliCmdType CMD_UOUT_CAL_RST;
 	const CliCmdType CMD_IOUT_CAL_RST;
 	
+// digital control OD
+	const CliCmdType CMD_DOD_READ;
+	const CliCmdType CMD_DOD_WRITE;
 	
+// LED control
+	const CliCmdType CMD_LED_READ;
+	const CliCmdType CMD_LED_WRITE;
 	
 #endif //RELAY8_H_
