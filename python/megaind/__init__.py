@@ -333,6 +333,7 @@ I2C_MEM_WDT_CLEAR_RESET_COUNT_ADD = I2C_MEM_WDT_RESET_COUNT_ADD + 2
 I2C_MEM_WDT_POWER_OFF_INTERVAL_SET_ADD = I2C_MEM_WDT_CLEAR_RESET_COUNT_ADD + 1
 I2C_MEM_WDT_POWER_OFF_INTERVAL_GET_ADD = I2C_MEM_WDT_POWER_OFF_INTERVAL_SET_ADD + 4
 WDT_MAX_POWER_OFF_INTERVAL = 4147200
+RELOAD_KEY = 202
 
 
 def wdtGetPeriod(stack):
@@ -363,7 +364,6 @@ def wdtSetPeriod(stack, val):
 
 
 def wdtReload(stack):
-    RELOAD_KEY = 0xCA
     ret = 1
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
