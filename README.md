@@ -20,7 +20,6 @@ If you use Ubuntu you need to install ```raspi-config``` first:
 ~$ sudo apt update
 ~$ sudo apt install raspi-config
 ```
-## Usage
 
 Make sure you have all tools you need:
 ```bash
@@ -28,6 +27,8 @@ Make sure you have all tools you need:
 ~$ sudo apt-get install git
 ~$ sudo apt-get install build-essential
 ```
+## Usage
+
 Install the command:
 ```bash
 ~$ git clone https://github.com/SequentMicrosystems/megaind-rpi.git
