@@ -14,7 +14,7 @@ Enable I2C communication first:
 ```
 A good article about I2C on Raspberry can be found [here.](https://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/) 
 
-If you use Ubuntu you need to install ```bash raspi-config ``` first:
+If you use Ubuntu you need to install ```raspi-config``` first:
 
 ```bash
 ~$ sudo apt update
