@@ -19,6 +19,7 @@
 #define WDT_RESET_SIGNATURE 	0xCA
 #define WDT_MAX_OFF_INTERVAL_S 4147200 //48 days
 #define UI_VAL_SIZE	2
+
 enum
 {
 	I2C_MEM_RELAY_VAL = 0,
@@ -104,7 +105,7 @@ enum
 	I2C_MEM_REVISION_MINOR,
 	I2C_MEM_SIZE,
 
-}I2C_MEM_ADD;
+};
 
 enum CAL_CH_START_ID{
 	CAL_0_10V_OUT_START_ID = 1,
@@ -166,54 +167,54 @@ typedef struct
 int doBoardInit(int stack);
 	
 //opto CLI structures
-	const CliCmdType CMD_OPTO_READ;
-	const CliCmdType CMD_COUNTER_READ;
-	const CliCmdType CMD_COUNTER_RST;
-	const CliCmdType CMD_EDGE_READ;
-	const CliCmdType CMD_EDGE_WRITE;
+	extern const CliCmdType CMD_OPTO_READ;
+	extern const CliCmdType CMD_COUNTER_READ;
+	extern const CliCmdType CMD_COUNTER_RST;
+	extern const CliCmdType CMD_EDGE_READ;
+	extern const CliCmdType CMD_EDGE_WRITE;
 	
 // watchdog CLI structures	
-	const CliCmdType CMD_WDT_RELOAD;
-	const CliCmdType CMD_WDT_SET_PERIOD;
-	const CliCmdType CMD_WDT_GET_PERIOD;
-	const CliCmdType CMD_WDT_SET_INIT_PERIOD;
-	const CliCmdType CMD_WDT_GET_INIT_PERIOD;
-	const CliCmdType CMD_WDT_SET_OFF_PERIOD;
-	const CliCmdType CMD_WDT_GET_OFF_PERIOD;
+	extern const CliCmdType CMD_WDT_RELOAD;
+	extern const CliCmdType CMD_WDT_SET_PERIOD;
+	extern const CliCmdType CMD_WDT_GET_PERIOD;
+	extern const CliCmdType CMD_WDT_SET_INIT_PERIOD;
+	extern const CliCmdType CMD_WDT_GET_INIT_PERIOD;
+	extern const CliCmdType CMD_WDT_SET_OFF_PERIOD;
+	extern const CliCmdType CMD_WDT_GET_OFF_PERIOD;
 	
 // RTC CLI structures
-	const CliCmdType CMD_RTC_GET;
-	const CliCmdType CMD_RTC_SET;
+	extern const CliCmdType CMD_RTC_GET;
+	extern const CliCmdType CMD_RTC_SET;
 	
 // RS-485 CLI structures
-	const CliCmdType CMD_RS485_READ;
-	const CliCmdType CMD_RS485_WRITE;
+	extern const CliCmdType CMD_RS485_READ;
+	extern const CliCmdType CMD_RS485_WRITE;
 	
 // analog in/out CLI structures
-	const CliCmdType CMD_UOUT_READ;
-	const CliCmdType CMD_IOUT_READ;
-	const CliCmdType CMD_OD_READ;
-	const CliCmdType CMD_UOUT_WRITE;
-	const CliCmdType CMD_IOUT_WRITE;
-	const CliCmdType CMD_OD_WRITE;
-	const CliCmdType CMD_UIN_READ;
-	const CliCmdType CMD_PMUIN_READ;
-	const CliCmdType CMD_IIN_READ;
-	const CliCmdType CMD_UIN_CAL;
-	const CliCmdType CMD_IIN_CAL;
-	const CliCmdType CMD_UIN_CAL_RST;
-	const CliCmdType CMD_IIN_CAL_RST;
-	const CliCmdType CMD_UOUT_CAL;
-	const CliCmdType CMD_IOUT_CAL;
-	const CliCmdType CMD_UOUT_CAL_RST;
-	const CliCmdType CMD_IOUT_CAL_RST;
+	extern const CliCmdType CMD_UOUT_READ;
+	extern const CliCmdType CMD_IOUT_READ;
+	extern const CliCmdType CMD_OD_READ;
+	extern const CliCmdType CMD_UOUT_WRITE;
+	extern const CliCmdType CMD_IOUT_WRITE;
+	extern const CliCmdType CMD_OD_WRITE;
+	extern const CliCmdType CMD_UIN_READ;
+	extern const CliCmdType CMD_PMUIN_READ;
+	extern const CliCmdType CMD_IIN_READ;
+	extern const CliCmdType CMD_UIN_CAL;
+	extern const CliCmdType CMD_IIN_CAL;
+	extern const CliCmdType CMD_UIN_CAL_RST;
+	extern const CliCmdType CMD_IIN_CAL_RST;
+	extern const CliCmdType CMD_UOUT_CAL;
+	extern const CliCmdType CMD_IOUT_CAL;
+	extern const CliCmdType CMD_UOUT_CAL_RST;
+	extern const CliCmdType CMD_IOUT_CAL_RST;
 	
 // digital control OD
-	const CliCmdType CMD_DOD_READ;
-	const CliCmdType CMD_DOD_WRITE;
+	extern const CliCmdType CMD_DOD_READ;
+	extern const CliCmdType CMD_DOD_WRITE;
 	
 // LED control
-	const CliCmdType CMD_LED_READ;
-	const CliCmdType CMD_LED_WRITE;
+	extern const CliCmdType CMD_LED_READ;
+	extern const CliCmdType CMD_LED_WRITE;
 	
 #endif //RELAY8_H_
