@@ -2,7 +2,7 @@
 
 This is the node-red node to control Sequent Microsystems [Industrial Automation](https://sequentmicrosystems.com/products/raspberry-pi-industrial-automation) card.
 
-## Install
+## Manual Install
 
 Clone or update the repository, follow the instrutions fron the [first page.](https://github.com/SequentMicrosystems/megaind-rpi)
 
