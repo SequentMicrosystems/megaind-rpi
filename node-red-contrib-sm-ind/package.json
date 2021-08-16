@@ -30,6 +30,8 @@
     "automation",
     "0-10V",
     "4-20mA",
+    "open-drain",
+    "optoisolated",
     "MODBUS"
   ]
 }
