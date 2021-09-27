@@ -21,6 +21,9 @@
  
 <script type="text/html" data-help-name="IND 0-10V in">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card 0-10V inputs </p>
+    <p>The node outputs the 0-10V input port readed value in volts when is receiving an input message</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+    <p>You can specify the channel number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
 </script>
 
 <script type="text/javascript">
@@ -110,6 +113,8 @@
 <script type="text/html" data-help-name="IND D10V in">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card +/-10V inputs. 
     Place the jumper on the correspondent channel in order the measurements to be correct </p>
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+    <p>You can specify the channel number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
 </script>
 
 <script type="text/javascript">
@@ -198,6 +203,9 @@
  
 <script type="text/html" data-help-name="IND 0-10V out">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card 0-10V outputs </p>
+    <p>Set the value of one 0-10V output port with the value received in the <code>msg.payload</code></p>
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+    <p>You can specify the channel number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
 </script>
 
 <script type="text/javascript">
@@ -285,6 +293,9 @@
  
 <script type="text/html" data-help-name="IND 4-20mA in">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card 4-20mA inputs </p>
+    <p>The node outputs the 4-20mA input port readed value in volts when is receiving an input message</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+    <p>You can specify the channel number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
 </script>
 
 <script type="text/javascript">
@@ -373,6 +384,8 @@
  
 <script type="text/html" data-help-name="IND 4-20mA out">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card 4-20mA outputs </p>
+    <p>The card stack level and channel number can be set in the node dialog box or dynamically through <code>msg.stack</code> and <code>msg.channel</code>.</p>
+    <p>The value in milliamps is set dynamically as a number between 4..20 thru <code>msg.payload</code>.</p>
 </script>
 
 <script type="text/javascript">
@@ -467,7 +480,12 @@
 </script>
  
 <script type="text/html" data-help-name="IND OPT cnt">
-    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Optocoupler Inputs Counters.</p>
+    <p>This node reads the optically coupled input cunter for one particular channel and sets the counting edges for that channel.</p>
+    <p>Card stack level and optically coupled input counter channel can be set in the node dialog box or dynamically through <code>msg.stack</code> and <code>msg.channel</code>.</p>
+    <p>Rising edge counting and/or falling edge counting can be enabled/diabled with corresponding check box in the node dialog.</p> 
+    <p>Edge settings are sent to the card every time you deploy this node or the flow starts or you select a different channel.</p> 
+    <p>The read is triggered by the message input and output can be found in the output message payload.</p>
+    <p>The counter can be reseted by sending to the node a message with the attribute <code>reset</code> equal to 1, <code>msg.reset = 1</code>.</p>
 </script>
 
 <script type="text/javascript">
@@ -559,6 +577,8 @@
  
 <script type="text/html" data-help-name="IND OPT in">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Optocoupled Inputs.</p>
+    <p>The card stack level and channel number can be set in the node dialog box or dynamically through <code>msg.stack</code> and <code>msg.channel</code>.</p>
+    <p>The read is triggered by the message input and output can be found in the output <code>msg.payload</code> as boolean.</p>
 </script>
 
 <script type="text/javascript">
@@ -646,7 +666,10 @@
 </script>
  
 <script type="text/html" data-help-name="IND OD out">
-    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Open-Drain PWM outputs. You can set the PWM duty-cycle from 0% to 100% thru message payload </p>
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Open-Drain PWM outputs.</p>
+    <p>The card stack level and channel number can be set in the node dialog box or dynamically through <code>msg.stack</code> and <code>msg.channel</code>.</p>
+    <p>You can set the PWM duty-cycle, for selected channel, from 0% to 100% thru input message payload.</p>
+    
 </script>
 
 <script type="text/javascript">

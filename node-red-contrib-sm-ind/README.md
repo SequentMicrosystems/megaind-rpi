@@ -65,6 +65,7 @@ Card stack level and optically coupled input counter channel number can be set i
 Rising edge counting and/or falling edge counting can be enabled/diabled with corresponding check box in the node dialog.
 Edge settings are sent to the card every time you deploy this node or the flow starts or you select a different channel for reading through ```msg.channel```.
 The read is triggered by the message input and output can be found in the output message payload.
+The counter can be reseted by sending to the node a message with the attribute ```reset``` equal to 1, ```msg.reset = 1```.
 
 ### IND OPT in
 

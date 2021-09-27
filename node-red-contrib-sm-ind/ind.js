@@ -445,6 +445,9 @@ module.exports = function(RED) {
             {
               falling = false;
             }
+            var resetIn;
+            if(isNaN(msg.reset)) resetIn = 0;
+            else resetIn = msg.reset;
             //var buffcount = parseInt(node.count);
             if (isNaN(stack)) {
                 this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
@@ -524,29 +527,38 @@ module.exports = function(RED) {
                 });  
               lastCfgCh = channel;    
             }
-            try {
-                                
-                if (this.payloadType == null) {
-                    myPayload = this.payload;
-                } else if (this.payloadType == 'none') {
-                    myPayload = null;
-                } else {
-                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+            if(resetIn != 0)
+            {
+              node.port.writeByte(hwAdd, I2C_MEM_OPTO_CH_CONT_RESET, channel, function(err) {
+                if (err) {
+                  node.error(err, msg);
                 }
-                node.port.readI2cBlock(hwAdd, I2C_MEM_OPTO_COUNT1 + (channel - 1)*2, 2, buffer,  function(err, size, res) {
-                    if (err) { 
-                        node.error(err, msg);
-                    } 
-                    else{
-                        msg.payload = res.readIntLE(0, 2);                       
-                        node.send(msg);
-                    }
-                    });     
-                    
-            } catch(err) {
-                this.error(err,msg);
+              });
             }
-            
+            else{
+              try {
+                                  
+                  if (this.payloadType == null) {
+                      myPayload = this.payload;
+                  } else if (this.payloadType == 'none') {
+                      myPayload = null;
+                  } else {
+                      myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                  }
+                  node.port.readI2cBlock(hwAdd, I2C_MEM_OPTO_COUNT1 + (channel - 1)*2, 2, buffer,  function(err, size, res) {
+                      if (err) { 
+                          node.error(err, msg);
+                      } 
+                      else{
+                          msg.payload = res.readIntLE(0, 2);                       
+                          node.send(msg);
+                      }
+                      });     
+                      
+              } catch(err) {
+                  this.error(err,msg);
+              }
+            }
         });
 
         node.on("close", function() {
