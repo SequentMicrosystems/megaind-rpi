@@ -264,6 +264,34 @@ ch - selected channel number [1..4]
 return - filling factor in precent [0..100]
 
 
+### setLed(stack, channel, val)
+Set one of the 4 LED's on the card.
+
+stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+channel - selected LED number [1..4]
+
+val - 0 = OFF, 1 = ON
+
+
+### setLedAll(stack, val)
+Set all 4 LED's on the card.
+
+stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+val - bitmap of the 4 LED's [0..15]
+
+
+### getLed(stack, channel)
+Get the state of one of the 4 LED's om the card.
+
+stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+channel - selected LED number [1..4]
+
+return 0 if the LED is OFF, 1 if is ON
+
+
 ## Watcdog Timer Functions
 
 ### wdtGetPeriod(stack)

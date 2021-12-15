@@ -167,6 +167,9 @@ def set4_20Out(stack, channel, value):
 
 
 # digital in/out functions
+I2C_MEM_RELAY_VAL = 0
+I2C_MEM_RELAY_SET = 1
+I2C_MEM_RELAY_CLR = 2
 I2C_MEM_OPTO_IN_VAL = 3
 I2C_MEM_OD_PWM1 = 20
 I2C_MEM_OPTO_RISING_ENABLE = 103
@@ -320,6 +323,52 @@ def getOdPWM(stack, channel):
     val = getWord(bus, hwAdd, I2C_MEM_OD_PWM1 + (2 * (channel - 1)))
     bus.close()
     return val / 100.0
+
+
+def setLed(stack, channel, val):
+    checkChannel(channel)
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(1)
+    out = channel + 4
+    try:
+        if val != 0:
+            bus.write_byte_data(hwAdd, I2C_MEM_RELAY_SET, out)
+        else:
+            bus.write_byte_data(hwAdd, I2C_MEM_RELAY_CLR, out)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to Write LED's with exception " + str(e))
+    bus.close()
+
+
+def setLedAll(stack, val):
+    if val < 0 or val > 15:
+        raise ValueError("Invalid value!")
+    val = val << 4
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(1)
+    try:
+        bus.write_byte_data(hwAdd, I2C_MEM_RELAY_VAL, val)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to Write LED's with exception " + str(e))
+    bus.close()
+
+
+def getLed(stack, channel):
+    checkChannel(channel)
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(1)
+    mask = 1 << (channel + 3)
+    try:
+        val = bus.read_byte_data(hwAdd, I2C_MEM_RELAY_VAL)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to Write LED's with exception " + str(e))
+    bus.close()
+    if val & mask:
+        return 1
+    return 0
 
 
 # watchdog functions
@@ -494,13 +543,13 @@ def rtcSet(stack, y, mo, d, h, m, s):
     hwAdd = checkStack(stack)
     bus = smbus.SMBus(1)
     buff = [int(y), int(mo), int(d), int(h), int(m), int(s), 0xaa]
-    #buff[0] = int(y)
-    #buff[1] = int(mo)
-    #buff[2] = int(d)
-    #buff[3] = int(h)
-    #buff[4] = int(m)
-    #buff[5] = int(s)
-    #buff[6] = 0xaa
+    # buff[0] = int(y)
+    # buff[1] = int(mo)
+    # buff[2] = int(d)
+    # buff[3] = int(h)
+    # buff[4] = int(m)
+    # buff[5] = int(s)
+    # buff[6] = 0xaa
     try:
         bus.write_i2c_block_data(hwAdd, I2C_RTC_SET_YEAR_ADD, buff)
     except Exception as e:
