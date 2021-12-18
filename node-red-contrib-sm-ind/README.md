@@ -26,7 +26,7 @@ In order to see the node in the palette and use-it you need to restart node-red.
 
 ## Usage
 
-After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 8 new nodes:
+After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 11 new nodes:
 
 ### IND 0 10V in
 
@@ -78,6 +78,21 @@ The read is triggered by the message input and output can be found in the output
 This node controls one Open-Drain output channel.
 Card stack level and channel number can be set in the node dialog box or dynamically through ```msg.stack``` and ```msg.channel```.
 The value in percentage is set dynamically as a number between 0..100 thru ```msg.payload```.
+
+### IND CPU Temp
+This node reads the temperature from the CPU on the Sequent board.
+Card stack level can be set in the node dialog box or dynamically through ```msg.stack```.
+The integer value in units of degrees Celcius is set dynamically as a number via ```msg.payload```.  *NB - not sure if the byte read from the Sequent board is signed or unsigned, so the range might be -128C..+127C, or it might be 0C..255C.*
+
+### IND PS Voltage
+This node reads the power supply voltage (nominally 24V) from the CPU on the Sequent board.
+Card stack level can be set in the node dialog box or dynamically through ```msg.stack```.
+The floating point value in volts is set dynamically as a number via ```msg.payload```.
+
+### IND RasPi Voltage
+This node reads the voltage supplied to the Raspberry Pi (nominally 5V) from the CPU on the Sequent board.
+Card stack level can be set in the node dialog box or dynamically through ```msg.stack```.
+The floating point value in volts is set dynamically as a number via ```msg.payload```.
 
 ## Important note
 

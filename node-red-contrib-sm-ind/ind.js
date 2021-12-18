@@ -3,6 +3,10 @@ module.exports = function(RED) {
     var I2C = require("i2c-bus");
     const DEFAULT_HW_ADD = 0x50;
    
+    const I2C_MEM_DIAG_TEMPERATURE = 114; // Byte/Degrees C
+    const I2C_MEM_DIAG_24V = 115;  // Word/millivolts
+    const I2C_MEM_DIAG_5V = 117;   // Word/millivolts
+
     const I2C_MEM_OPTO_IN_VAL = 3;
     const I2C_MEM_U0_10_OUT_VAL1 = 4;
     const I2C_MEM_I4_20_OUT_VAL1 = 12;
@@ -737,4 +741,189 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("IND OD out", PWMOutNode); 
+
+    function CpuTempNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readByte(hwAdd, I2C_MEM_DIAG_TEMPERATURE, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND CPU Temp", CpuTempNode);
+
+    function PSVoltageNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readWord(hwAdd, I2C_MEM_DIAG_24V, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res / 1000.0;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND PS Voltage", PSVoltageNode);
+
+
+    function RasPiVoltageNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readWord(hwAdd, I2C_MEM_DIAG_5V, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res / 1000.0;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND RasPi Voltage", RasPiVoltageNode);
+
 }
