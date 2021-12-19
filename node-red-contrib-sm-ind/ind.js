@@ -19,7 +19,11 @@ module.exports = function(RED) {
     const I2C_MEM_OPTO_FALLING_ENABLE = 104;
     const I2C_MEM_OPTO_CH_CONT_RESET = 105;
     const I2C_MEM_OPTO_COUNT1 = 106; //2 bytes integers
-    
+
+    const I2C_MEM_RELAY_VAL = 0; // Byte/upper four bits mapped to LEDs
+    const I2C_MEM_RELAY_SET = 1; // Byte/values 4-7 map to LEDs 0-3
+    const I2C_MEM_RELAY_CLR = 2; // Byte/values 4-7 map to LEDs 0-3
+
     function VInNode(n) {
         RED.nodes.createNode(this, n);
         this.stack = parseInt(n.stack);
@@ -925,5 +929,95 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("IND RasPi Voltage", RasPiVoltageNode);
+
+    // LEDs
+    function LedOutNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            var channel = node.channel;
+            if (isNaN(channel)) channel = msg.channel;
+            stack = parseInt(stack);
+            channel = parseInt(channel);
+            //var buffcount = parseInt(node.count);
+            if (this.payloadType == null) {
+                myPayload = this.payload;
+            } else if (this.payloadType == 'none') {
+                myPayload = null;
+            } else {
+                myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+            }
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else if (isNaN(channel) ) {
+                this.status({fill:"red",shape:"ring",text:"Sensor number  ("+channel+") value is missing or incorrect"});
+                return;
+            } else if(isNaN(myPayload)){
+              this.status({fill:"red",shape:"ring",text:"Payload type must be a number  ("+this.payload+") value is missing or incorrect myPayload: ("+myPayload+")"});
+                return;
+            }
+            else{
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if(channel < 1){
+                  channel = 1;
+                }
+                if(channel > 4){
+                  channel = 4;
+                }
+		var regAdd = 0;
+                if(myPayload != 0){ // turn on LED
+		    regAdd = I2C_MEM_RELAY_SET; 
+
+                } else { // turn off LED
+		    regAdd = I2C_MEM_RELAY_CLR;
+		}
+		
+		    
+                var intVal = channel + 4
+                
+                node.port.writeByte(hwAdd, regAdd, intVal,  function(err, size, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else{
+                        //rmsg.payload = res.readIntLE(0, 2) / 1000.0;                       
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND LED out", LedOutNode);    
+
+
 
 }

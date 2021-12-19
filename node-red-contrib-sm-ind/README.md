@@ -26,7 +26,7 @@ In order to see the node in the palette and use-it you need to restart node-red.
 
 ## Usage
 
-After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 11 new nodes:
+After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 12 new nodes:
 
 ### IND 0 10V in
 
@@ -93,6 +93,11 @@ The floating point value in volts is set dynamically as a number via ```msg.payl
 This node reads the voltage supplied to the Raspberry Pi (nominally 5V) from the CPU on the Sequent board.
 Card stack level can be set in the node dialog box or dynamically through ```msg.stack```.
 The floating point value in volts is set dynamically as a number via ```msg.payload```.
+
+### IND LED Out
+This node controls one LED channel.
+The card stack level and LED channel number can be set in the node dialog box or dynamically through ```msg.stack``` and ```msg.channel```.
+The value in volts is set dynamically as a number. 0 is off; anything else is on via ```msg.payload```.
 
 ## Important note
 
