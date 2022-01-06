@@ -60,7 +60,7 @@ The read is triggered by the message input and output can be found in the output
 
 ### IND OPT cnt
 
-This node reads the optically coupled input cunter for one particular channel and sets the counting edges for that channel.
+This node reads the optically coupled input counter for one particular channel and sets the counting edges for that channel.
 Card stack level and optically coupled input counter channel number can be set in the node dialog box or dynamically through ```msg.stack``` and ```msg.channel```.
 Rising edge counting and/or falling edge counting can be enabled/diabled with corresponding check box in the node dialog.
 Edge settings are sent to the card every time you deploy this node or the flow starts or you select a different channel for reading through ```msg.channel```.
