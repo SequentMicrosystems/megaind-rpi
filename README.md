@@ -2,7 +2,7 @@
 
 # megaind-rpi
 
-This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/industrial-automation/products/raspberry-pi-industrial-automation).
+This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi).
 
 ![MEGA-IND](res/IND.jpg)
 
