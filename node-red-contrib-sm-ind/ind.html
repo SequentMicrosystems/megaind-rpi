@@ -1061,3 +1061,82 @@
         }
     });
 </script>
+
+<!-- RTC **************************************************************************************************************** -->
+<script type="text/html" data-template-name="IND Read RTC">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND Read RTC">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Real Time Clock </p>
+    <p>The node outputs the Date/Time as reported by the RTC</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND Read RTC', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-calendar",
+        align: "left",
+        label: function() { return this.name||'IND Read RTC'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
