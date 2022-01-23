@@ -4,15 +4,15 @@ This is the node-red node to control Sequent Microsystems [Industrial Automation
 
 ## Manual Install
 
-Clone or update the repository, follow the instrutions fron the [first page.](https://github.com/SequentMicrosystems/megaind-rpi)
+Clone or update the repository, follow the instrutions from the [first page.](https://github.com/SequentMicrosystems/megaind-rpi)
 
-In your node-red user directory, tipicaly ~/.node-red,
+In your node-red user directory, typicaly ~/.node-red,
 
 ```bash
 ~$ cd ~/.node-red
 ```
 
-Run the fallowing command:
+Run the following command:
 
 ```bash
 ~/.node-red$ npm install ~/megaind-rpi/node-red-contrib-sm-ind
@@ -26,7 +26,7 @@ In order to see the node in the palette and use-it you need to restart node-red.
 
 ## Usage
 
-After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 8 new nodes:
+After install and restart the node-red you will see on the node palete, under Sequent Microsystems category 13 new nodes:
 
 ### IND 0 10V in
 
@@ -65,7 +65,7 @@ Card stack level and optically coupled input counter channel number can be set i
 Rising edge counting and/or falling edge counting can be enabled/diabled with corresponding check box in the node dialog.
 Edge settings are sent to the card every time you deploy this node or the flow starts or you select a different channel for reading through ```msg.channel```.
 The read is triggered by the message input and output can be found in the output message payload.
-The counter can be reseted by sending to the node a message with the attribute ```reset``` equal to 1, ```msg.reset = 1```.
+The counter can be reset by sending to the node a message with the attribute ```reset``` equal to 1, ```msg.reset = 1```.
 
 ### IND OPT in
 
@@ -78,6 +78,60 @@ The read is triggered by the message input and output can be found in the output
 This node controls one Open-Drain output channel.
 Card stack level and channel number can be set in the node dialog box or dynamically through ```msg.stack``` and ```msg.channel```.
 The value in percentage is set dynamically as a number between 0..100 thru ```msg.payload```.
+
+### IND CPU Temp
+This node reads the temperature from the CPU on the Sequent board.
+
+Card stack level can be set in the node dialog box or dynamically
+through ```msg.stack```.
+
+The integer value in units of degrees Celcius is set dynamically as a
+number via ```msg.payload```.
+
+*NB - not sure if the byte read from the Sequent board is signed or
+unsigned, so the range might be -128C..+127C, or it might be
+0C..255C.*
+
+### IND PS Voltage
+This node reads the power supply voltage (nominally 24V) from the CPU
+on the Sequent board.
+
+Card stack level can be set in the node dialog box or dynamically
+through ```msg.stack```.
+
+The floating point value in volts is set dynamically as a number via
+```msg.payload```.
+
+### IND RasPi Voltage
+This node reads the voltage supplied to the Raspberry Pi (nominally
+5V) from the CPU on the Sequent board.
+
+Card stack level can be set in the node dialog box or dynamically
+through ```msg.stack```.
+
+The floating point value in volts is set dynamically as a number via
+```msg.payload```.
+
+### IND LED Out
+This node controls one LED channel.
+
+The card stack level and LED channel number can be set in the node
+dialog box or dynamically through ```msg.stack``` and
+```msg.channel```.
+
+The value in volts is set dynamically as a number. 0 is off; anything
+else is on via ```msg.payload```.
+
+### IND Read RTC
+This node reads the Real Time Clock (RTC) from the Sequent board.
+
+*NB Since there is no indication of timezone, Node interprets the time
+from the RTC to be in the system local time.*
+
+Card stack level can be set in the node dialog box or dynamically
+through ```msg.stack```.
+
+The date and time are set dynamically as a Date via ```msg.payload```.
 
 ## Important note
 

@@ -3,6 +3,10 @@ module.exports = function(RED) {
     var I2C = require("i2c-bus");
     const DEFAULT_HW_ADD = 0x50;
    
+    const I2C_MEM_DIAG_TEMPERATURE = 114; // Byte/Degrees C
+    const I2C_MEM_DIAG_24V = 115;  // Word/millivolts
+    const I2C_MEM_DIAG_5V = 117;   // Word/millivolts
+
     const I2C_MEM_OPTO_IN_VAL = 3;
     const I2C_MEM_U0_10_OUT_VAL1 = 4;
     const I2C_MEM_I4_20_OUT_VAL1 = 12;
@@ -15,6 +19,30 @@ module.exports = function(RED) {
     const I2C_MEM_OPTO_FALLING_ENABLE = 104;
     const I2C_MEM_OPTO_CH_CONT_RESET = 105;
     const I2C_MEM_OPTO_COUNT1 = 106; //2 bytes integers
+
+    const I2C_MEM_RELAY_VAL = 0; // Byte/upper four bits mapped to LEDs
+    const I2C_MEM_RELAY_SET = 1; // Byte/values 4-7 map to LEDs 0-3
+    const I2C_MEM_RELAY_CLR = 2; // Byte/values 4-7 map to LEDs 0-3
+
+    // Real Time Clock
+    //
+    // Apparantly no provision for specifying Timezone, whether local
+    // or UTC, or DST status
+    const I2C_MEM_RTC_YEAR = 70;       // Byte/(Year - 2000)
+    const I2C_MEM_RTC_MONTH = 71;      // Byte/1-12 (note: Node uses 0-11)
+    const I2C_MEM_RTC_DAY = 72;	       // Byte/1-31
+    const I2C_MEM_RTC_HOUR = 73;       // Byte/0-23
+    const I2C_MEM_RTC_MINUTE = 74;     // Byte/0-59
+    const I2C_MEM_RTC_SECOND = 75;     // Byte/0-59
+    const I2C_MEM_RTC_SET_YEAR = 76;   // Byte/(Year - 2000)
+    const I2C_MEM_RTC_SET_MONTH = 77;  // Byte/1-12	   
+    const I2C_MEM_RTC_SET_DAY = 78;    // Byte/1-31	   
+    const I2C_MEM_RTC_SET_HOUR = 79;   // Byte/0-23	   
+    const I2C_MEM_RTC_SET_MINUTE = 80; // Byte/0-59	   
+    const I2C_MEM_RTC_SET_SECOND = 81; // Byte/0-59	   
+    const I2C_MEM_RTC_CMD = 82;	       // Defined in megaind.h, but
+				       // not used in C or Python code
+
     
     function VInNode(n) {
         RED.nodes.createNode(this, n);
@@ -737,4 +765,349 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("IND OD out", PWMOutNode); 
+
+    function CpuTempNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readByte(hwAdd, I2C_MEM_DIAG_TEMPERATURE, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND CPU Temp", CpuTempNode);
+
+    function PSVoltageNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readWord(hwAdd, I2C_MEM_DIAG_24V, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res / 1000.0;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND PS Voltage", PSVoltageNode);
+
+
+    function RasPiVoltageNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(2);
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+                }
+                node.port.readWord(hwAdd, I2C_MEM_DIAG_5V, function(err, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else {
+                        msg.payload = res / 1000.0;
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND RasPi Voltage", RasPiVoltageNode);
+
+    // LEDs
+    function LedOutNode(n) {
+        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            var channel = node.channel;
+            if (isNaN(channel)) channel = msg.channel;
+            stack = parseInt(stack);
+            channel = parseInt(channel);
+            //var buffcount = parseInt(node.count);
+            if (this.payloadType == null) {
+                myPayload = this.payload;
+            } else if (this.payloadType == 'none') {
+                myPayload = null;
+            } else {
+                myPayload = RED.util.evaluateNodeProperty(this.payload, this.payloadType, this,msg);
+            }
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else if (isNaN(channel) ) {
+                this.status({fill:"red",shape:"ring",text:"Sensor number  ("+channel+") value is missing or incorrect"});
+                return;
+            } else if(isNaN(myPayload)){
+              this.status({fill:"red",shape:"ring",text:"Payload type must be a number  ("+this.payload+") value is missing or incorrect myPayload: ("+myPayload+")"});
+                return;
+            }
+            else{
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if(channel < 1){
+                  channel = 1;
+                }
+                if(channel > 4){
+                  channel = 4;
+                }
+		var regAdd = 0;
+                if(myPayload != 0){ // turn on LED
+		    regAdd = I2C_MEM_RELAY_SET; 
+
+                } else { // turn off LED
+		    regAdd = I2C_MEM_RELAY_CLR;
+		}
+		
+		    
+                var intVal = channel + 4
+                
+                node.port.writeByte(hwAdd, regAdd, intVal,  function(err, size, res) {
+                    if (err) { 
+                        node.error(err, msg);
+                    } 
+                    else{
+                        //rmsg.payload = res.readIntLE(0, 2) / 1000.0;                       
+                        node.send(msg);
+                    }
+                    });     
+                    
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND LED out", LedOutNode);    
+
+    // Real Time Clock
+    function RtcReadNode(n) {
+	        RED.nodes.createNode(this, n);
+        this.stack = parseInt(n.stack);
+        this.channel = parseInt(n.channel);
+        this.payload = n.payload;
+        this.payloadType = n.payloadType;
+        var node = this;
+        var buffer = Buffer.alloc(6); // Y, M, D, H, M, S
+        node.port = I2C.openSync( 1 );
+        node.on("input", function(msg) {
+            var myPayload;
+            var stack = node.stack; 
+            if (isNaN(stack)) stack = msg.stack;
+            stack = parseInt(stack);
+
+            if (isNaN(stack)) {
+                this.status({fill:"red",shape:"ring",text:"Stack level ("+stack+") value is missing or incorrect"});
+                return;
+            } else {
+                this.status({});
+            }
+            try {
+                var hwAdd = DEFAULT_HW_ADD;
+                if(stack < 0){
+                    stack = 0;
+                }
+                if(stack > 7){
+                  stack = 7;
+                }
+                hwAdd += stack;
+                
+                if (this.payloadType == null) {
+                    myPayload = this.payload;
+                } else if (this.payloadType == 'none') {
+                    myPayload = null;
+                } else {
+                    myPayload = RED.util.evaluateNodeProperty(this.payload,
+							      this.payloadType,
+							      this,msg);
+                }
+                node.port.readI2cBlock(hwAdd, I2C_MEM_RTC_YEAR, 1, buffer,
+				       function(err, size, res) {	
+					   if (err) { 
+					       node.error(err, msg);
+					   } 
+					   else {
+					       // Following assumes
+					       // RTC is in local time
+					       msg.payload=Date(buffer[0]+2000,
+								buffer[1]-1,
+								buffer[2],
+								buffer[3],
+								buffer[4],
+								buffer[5],
+								0);
+					       node.send(msg);
+					   }
+				       });   
+            } catch(err) {
+                this.error(err,msg);
+            }
+            
+        });
+
+        node.on("close", function() {
+            node.port.closeSync();
+        });
+    }
+    RED.nodes.registerType("IND Read RTC", RtcReadNode);
+
+
 }

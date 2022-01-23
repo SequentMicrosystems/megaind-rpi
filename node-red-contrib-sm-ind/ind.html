@@ -733,3 +733,410 @@
         }
     });
 </script>
+
+<!-- CPU Temp **************************************************************************************************************** -->
+<script type="text/html" data-template-name="IND CPU Temp">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND CPU Temp">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card CPU thermometer </p>
+    <p>The node outputs the integer temperature in Celcius when it receives an input message</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND CPU Temp', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-thermometer-3",
+        align: "left",
+        label: function() { return this.name||'IND CPU Temp'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
+
+<!-- Power Supply Voltage **************************************************************************************************************** -->
+<script type="text/html" data-template-name="IND PS Voltage">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND PS Voltage">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card nominal 24V Power Supply Voltage monitoring input </p>
+    <p>The node outputs the Power Supply Voltage when it receives an input message</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND PS Voltage', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-tachometer",
+        align: "left",
+        label: function() { return this.name||'IND PS Voltage'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
+
+<!-- Raspberry Pi Voltage **************************************************************************************************************** -->
+<script type="text/html" data-template-name="IND RasPi Voltage">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND RasPi Voltage">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card nominal 5V Supply to Raspberry Pi Voltage monitoring input </p>
+    <p>The node outputs the Voltage Supplied to the Raspberry Pi when it receives an input message</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND RasPi Voltage', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-tachometer",
+        align: "left",
+        label: function() { return this.name||'IND RasPi Voltage'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
+
+
+<script type="text/html" data-template-name="IND LED out">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-channel"><i class="fa fa-empire"></i> LED channel</label>
+        <input id="node-input-channel" class="ind-out-channel" placeholder="[msg.channel]" min=1 max=4 style="width:100px; height:16px;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND LED out">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card LEDs</p>
+    <p>Set the LED off if the value received in the <code>msg.payload</code> is 0; otherwise turn it on</p>
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+    <p>You can specify the channel/LED number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND LED out', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            channel: {value:"1"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "node-red/light.svg",
+        align: "right",
+        label: function() { return this.name||'IND LED out'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            if (this.channel === undefined) {
+                $("#node-input-channel").val(1);
+            }
+            $("#node-input-channel").spinner({
+                min:1,
+                max:4
+            }); 
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
+
+<!-- RTC **************************************************************************************************************** -->
+<script type="text/html" data-template-name="IND Read RTC">
+       <div class="form-row">
+        <label for="node-input-stack"><i class="fa fa-address-card-o""></i> Board Stack Level</label>
+        <input id="node-input-stack" class="ind-out-stack" placeholder="[msg.stack]" min=0 max=7 style="width:100px; height:16px;">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope"></i> Payload</span></label>
+        <input type="text" id="node-input-payload" style="width:70%">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+ 
+<script type="text/html" data-help-name="IND Read RTC">
+    <p>Provides a connection to an Sequent Microsystems Industrial Automation Card Real Time Clock </p>
+    <p>The node outputs the Date/Time as reported by the RTC</p> 
+    <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('IND Read RTC', {
+        category: 'Sequent Microsystems',
+        defaults: {
+            name: {value:""},
+            stack: {value:"0"},
+            payload: {value:"payload", required:false, validate: RED.validators.typedInput("payloadType")},
+            payloadType: {value:"msg"},
+        },
+        color:"#7a9da6",
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-calendar",
+        align: "left",
+        label: function() { return this.name||'IND Read RTC'; },
+        labelStyle: function() { return this.name?"node_label_italic":"";},
+        oneditprepare: function() {
+            if (this.payloadType == null) {
+                this.payloadType = "msg";
+            } else if (this.payloadType === 'string' ) {
+                this.payloadType = "str";
+            }
+
+            if (this.stack === undefined) {
+                $("#node-input-stack").val(1);
+            }
+            $("#node-input-stack").spinner({
+                min:0,
+                max:7
+            });
+            $("#node-input-payload").typedInput({
+                default: 'msg',
+                typeField: $("#node-input-payloadType"),
+                types:['msg','flow','global','str','num','bool','json','bin']
+            });
+            $("#node-input-payload").typedInput('type',this.payloadType);
+            $("#node-input-payloadType").val(this.payloadType);
+            if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                $("#node-input-payload").typedInput('value') === ''
+            ) {
+                $("#node-input-payload").typedInput('value','payload');
+            }
+			
+            $("#node-input-payload").on('change',function() {
+                if ($("#node-input-payload").typedInput('type') === 'msg' &&
+                    $("#node-input-payload").typedInput('value') === ''
+                ) {
+                    $("#node-input-payload").typedInput('value','payload');
+                }
+            });
+        }
+    });
+</script>
