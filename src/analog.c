@@ -14,7 +14,7 @@ int val16Get(int dev, int baseAdd, int ch, float scale, float* val)
 	{
 		0,
 		0};
-	u16 raw = 0;
+	s16 raw = 0;
 	u8 add = 0;
 
 	if (ch < CHANNEL_NR_MIN)
@@ -45,7 +45,8 @@ int val16Set(int dev, int baseAdd, int ch, float scale, float val)
 	{
 		0,
 		0};
-	u16 raw = 0;
+	//u16 raw = 0;
+ s16 raw = 0;
 	u8 add = 0;
 
 	if (ch < CHANNEL_NR_MIN)
@@ -58,7 +59,7 @@ int val16Set(int dev, int baseAdd, int ch, float scale, float val)
 		return ERROR;
 	}
 	add = baseAdd + 2 * (ch - 1);
-	raw = (u16)ceil(val * scale); //transform to milivolts
+	raw = (s16)ceil(val * scale); //transform to milivolts
 	memcpy(buff, &raw, 2);
 	if (OK != i2cMem8Write(dev, add, buff, 2))
 	{
@@ -235,9 +236,9 @@ int doUOutWrite(int argc, char *argv[])
 			printf("0-10V Output channel out of range!\n");
 			return ERROR;
 		}
-		if (volt < 0 || volt > 10)
+		if (volt < -10 || volt > 10)
 		{
-			printf("Invalid voltage value, must be 0..10 \n");
+			printf("Invalid voltage value, must be -10..10 \n");
 			return ERROR;
 		}
 

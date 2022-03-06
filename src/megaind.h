@@ -142,8 +142,11 @@ enum CAL_CH_START_ID{
 #define SLAVE_OWN_ADDRESS_BASE 0x50
 
 typedef uint8_t u8;
+typedef int8_t s8;
 typedef uint16_t u16;
+typedef int16_t s16;
 typedef uint32_t u32;
+typedef int32_t s32;
 
 typedef enum
 {
@@ -181,6 +184,9 @@ int doBoardInit(int stack);
 	extern const CliCmdType CMD_WDT_GET_INIT_PERIOD;
 	extern const CliCmdType CMD_WDT_SET_OFF_PERIOD;
 	extern const CliCmdType CMD_WDT_GET_OFF_PERIOD;
+  extern const CliCmdType CMD_WDT_GET_RESETS_COUNT;
+  extern const CliCmdType CMD_WDT_CLR_RESETS_COUNT;
+  
 	
 // RTC CLI structures
 	extern const CliCmdType CMD_RTC_GET;

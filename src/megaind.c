@@ -2,7 +2,7 @@
  * rtd.c:
  *	Command-line interface to the Raspberry
  *	Pi's MEGAS-RTD board.
- *	Copyright (c) 2016-2020 Sequent Microsystem
+ *	Copyright (c) 2016-2022 Sequent Microsystem
  *	<http://www.sequentmicrosystem.com>
  ***********************************************************************
  *	Author: Alexandru Burcea
@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)0
+#define VERSION_MINOR	(int)1
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -348,6 +348,8 @@ const CliCmdType* gCmdArray[] =
 	&CMD_WDT_GET_INIT_PERIOD,
 	&CMD_WDT_SET_OFF_PERIOD,
 	&CMD_WDT_GET_OFF_PERIOD,
+  &CMD_WDT_GET_RESETS_COUNT,
+  &CMD_WDT_CLR_RESETS_COUNT,
 	&CMD_RS485_READ,
 	&CMD_RS485_WRITE,
 	&CMD_RTC_GET,
