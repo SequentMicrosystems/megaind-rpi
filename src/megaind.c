@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)1
+#define VERSION_MINOR	(int)2
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -306,6 +306,47 @@ int doBoard(int argc, char *argv[])
 	return OK;
 }
 
+int doVbRead(int argc, char *argv[]);
+const CliCmdType CMD_VB_RD =
+{
+	"vbrd",
+	2,
+	&doVbRead,
+	"\tvbrd		Display the board RTC Backup battery voltage\n",
+	"\tUsage:		megaind <stack> vbrd\n",
+	"",
+	"\tExample:		megaind 0 vbrd  Display backup battery voltage \n"};
+
+int doVbRead(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff[5];
+	int resp = 0;
+	float vBattery = 5;
+
+	if (argc != 3)
+	{
+		return ARG_CNT_ERR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	resp = i2cMem8Read(dev, I2C_MEM_DIAG_3V, buff, 2);
+	if (FAIL == resp)
+	{
+		printf("Fail to read board info!\n");
+		return ERROR;
+	}
+	
+	memcpy(&resp, &buff[0], 2);
+	vBattery = (float)resp / VOLT_TO_MILIVOLT; //read in milivolts
+
+	printf("%0.3f V\n",vBattery);
+	return OK;
+}
+
 
 
 const CliCmdType* gCmdArray[] =
@@ -315,6 +356,7 @@ const CliCmdType* gCmdArray[] =
 	&CMD_WAR,
 	&CMD_LIST,
 	&CMD_BOARD,
+	&CMD_VB_RD,
 	&CMD_OPTO_READ,
 	&CMD_COUNTER_READ,
 	&CMD_COUNTER_RST,
