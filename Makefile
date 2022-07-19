@@ -35,7 +35,7 @@ install: megaind
 	$Q echo "[Install]"
 	$Q cp megaind		$(DESTDIR)$(PREFIX)/bin
 ifneq ($(WIRINGPI_SUID),0)
-	$Q chown root.root	$(DESTDIR)$(PREFIX)/bin/megaind
+	$Q chown root:root	$(DESTDIR)$(PREFIX)/bin/megaind
 	$Q chmod 4755		$(DESTDIR)$(PREFIX)/bin/megaind
 endif
 #	$Q mkdir -p		$(DESTDIR)$(PREFIX)/man/man1
