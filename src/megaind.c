@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)2
+#define VERSION_MINOR	(int)3
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
