@@ -53,10 +53,15 @@ Access level Read Only, Size 1 bit
 
 | Device function | Register Address | Modbus Address |
 | --- | --- | --- |
-| OPTO_1 | 10001 | 0x00 |
-| OPTO_2 | 10002 | 0x01 |
-| OPTO_3 | 10003 | 0x02 |
-| OPTO_4 | 10004 | 0x03 |
+|	DI_DRY_C1 | 10001 | 0x00 |
+|	DI_DRY_C2 | 10002 | 0x01 |
+|	DI_DRY_C3 | 10003 | 0x02 |
+|	DI_DRY_C4 | 10004 | 0x03 |
+|	DI_DRY_C5 | 10005 | 0x04 |
+|	DI_DRY_C6 | 10006 | 0x05 |
+|	DI_DRY_C7 | 10007 | 0x06 |
+|	DI_DRY_C8 | 10008 | 0x07 |
+|	DI_BUTTON | 10009 | 0x08 |
 
 
 ### Input registers
@@ -73,7 +78,7 @@ Access level Read Only, Size 16 bits
 | +/-10V_IN_2 | 30006 | 0x05 | mV |
 | +/-10V_IN_3 | 30007 | 0x06 | mV |
 | +/-10V_IN_4 | 30008 | 0x07 | mV |
-| 4-20mA_IN_1 | 30009 | 0x08 | uA |
+| 4-20mA_IN_1 |830009 | 0x08 | uA |
 | 4-20mA_IN_2 | 30010 | 0x09 | uA |
 | 4-20mA_IN_3 | 30011 | 0x0a | uA |
 | 4-20mA_IN_4 | 30012 | 0x0b | uA |
