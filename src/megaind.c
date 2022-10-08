@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)3
+#define VERSION_MINOR	(int)4
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -193,7 +193,7 @@ int doVersion(int argc, char *argv[])
 	return OK;
 }
 
-int doWarranty(int argc, char* argv[]);
+int doWarranty(int argc, char *argv[]);
 const CliCmdType CMD_WAR =
 {
 	"-warranty",
@@ -339,17 +339,60 @@ int doVbRead(int argc, char *argv[])
 		printf("Fail to read board info!\n");
 		return ERROR;
 	}
-	
+
 	memcpy(&resp, &buff[0], 2);
 	vBattery = (float)resp / VOLT_TO_MILIVOLT; //read in milivolts
 
-	printf("%0.3f V\n",vBattery);
+	printf("%0.3f V\n", vBattery);
 	return OK;
 }
 
+int doOwbGet(int argc, char *argv[]);
+const CliCmdType CMD_OWB_RD =
+	{
+		"owbrd",
+		2,
+		&doOwbGet,
+		"\towbrd		Display the temperature readed from a one wire bus connected sensor\n",
+		"\tUsage:		megaind <stack> owbrd\n",
+		"",
+		"\tExample:		megaind 0 owbrd  Display the temperature if the sensor is connected\n"};
 
+int doOwbGet(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff[5];
+	int resp = 0;
+	float temp = 0;
 
-const CliCmdType* gCmdArray[] =
+	if (argc != 3)
+	{
+		return ARG_CNT_ERR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_DEV, buff, 3);
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+	if (buff[0] == 0)
+	{
+		printf("No sensor connected!\n");
+		return OK;
+	}
+	memcpy(&resp, &buff[1], 2);
+	temp = (float)resp / 100;
+
+	printf("%0.2f C\n", temp);
+	return OK;
+}
+
+const CliCmdType *gCmdArray[] =
 {
 	&CMD_VERSION,
 	&CMD_HELP,
@@ -390,12 +433,13 @@ const CliCmdType* gCmdArray[] =
 	&CMD_WDT_GET_INIT_PERIOD,
 	&CMD_WDT_SET_OFF_PERIOD,
 	&CMD_WDT_GET_OFF_PERIOD,
-  &CMD_WDT_GET_RESETS_COUNT,
-  &CMD_WDT_CLR_RESETS_COUNT,
+	&CMD_WDT_GET_RESETS_COUNT,
+	&CMD_WDT_CLR_RESETS_COUNT,
 	&CMD_RS485_READ,
 	&CMD_RS485_WRITE,
 	&CMD_RTC_GET,
 	&CMD_RTC_SET,
+	&CMD_OWB_RD,
 	NULL}; //null terminated array of cli structure pointers
 
 int main(int argc, char *argv[])
@@ -415,7 +459,7 @@ int main(int argc, char *argv[])
 			if (strcasecmp(argv[gCmdArray[i]->namePos], gCmdArray[i]->name) == 0)
 			{
 				ret = gCmdArray[i]->pFunc(argc, argv);
-				if ( ARG_CNT_ERR == ret)
+				if (ARG_CNT_ERR == ret)
 				{
 					printf("Invalid parameters number!\n");
 					printf("%s", gCmdArray[i]->usage1);
