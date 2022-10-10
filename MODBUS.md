@@ -57,6 +57,7 @@ Access level Read Only, Size 1 bit
 | OPTO_2 | 10002 | 0x01 |
 | OPTO_3 | 10003 | 0x02 |
 | OPTO_4 | 10004 | 0x03 |
+| OWB_PRESENT | 10005 | 0x04 |
 
 
 ### Input registers
@@ -81,6 +82,7 @@ Access level Read Only, Size 16 bits
 | OPTO_COUNT_2 | 30014 | 0x0d |  |
 | OPTO_COUNT_3 | 30015 | 0x0e |  |
 | OPTO_COUNT_4 | 30016 | 0x0f |  |
+| OWB_TEMP | 30017 |  0x10 | C/100|
 
 
 ### Holding registers
