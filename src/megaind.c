@@ -350,21 +350,149 @@ int doVbRead(int argc, char *argv[])
 int doOwbGet(int argc, char *argv[]);
 const CliCmdType CMD_OWB_RD =
 	{
-		"owbrd",
+		"owbtrd",
 		2,
 		&doOwbGet,
-		"\towbrd		Display the temperature readed from a one wire bus connected sensor\n",
-		"\tUsage:		megaind <stack> owbrd\n",
+		"\towbtrd		Display the temperature readed from a one wire bus connected sensor\n",
+		"\tUsage:		megaind <stack> owbtrd <sensor (1..16)>\n",
 		"",
-		"\tExample:		megaind 0 owbrd  Display the temperature if the sensor is connected\n"};
+		"\tExample:		megaind 0 owbtrd 1 Display the temperature of the sensor #1\n"};
 
 int doOwbGet(int argc, char *argv[])
 {
 	int dev = -1;
 	u8 buff[5];
 	int resp = 0;
+	int channel = 0;
 	float temp = 0;
 
+	if (argc != 4)
+	{
+		return ARG_CNT_ERR;
+	}
+	channel = atoi(argv[3]);
+	if(channel < 1 || channel > 16)
+	{
+		return ERROR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_DEV, buff, 1);
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+	if(channel > buff[0])
+	{
+		printf("Invalid channel number, only %d sensors connected!\n", buff[0]);
+		return ERROR;
+	}
+	
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_T1 + (channel - 1) *OWB_TEMP_SIZE_B , buff, OWB_TEMP_SIZE_B);
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+//	if (buff[0] == 0)
+//	{
+//		printf("No sensor connected!\n");
+//		return OK;
+//	}
+	memcpy(&resp, &buff[0], 2);
+	temp = (float)resp / 100;
+
+	printf("%0.2f C\n", temp);
+	return OK;
+}
+
+
+int doOwbIdGet(int argc, char *argv[]);
+const CliCmdType CMD_OWB_ID_RD =
+	{
+		"owbidrd",
+		2,
+		&doOwbIdGet,
+		"\towbidrd		Display the 64bits ROM ID of the one wire bus connected sensor\n",
+		"\tUsage:		megaind <stack> owbidrd <sensor (1..16)>\n",
+		"",
+		"\tExample:		megaind 0 owbidrd 1 Display the ROM ID of the sensor #1\n"};
+
+int doOwbIdGet(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff[8];
+	int resp = 0;
+	int channel = 0;
+	uint64_t romID = 0;
+
+	if (argc != 4)
+	{
+		return ARG_CNT_ERR;
+	}
+	channel = atoi(argv[3]);
+	if(channel < 1 || channel > 16)
+	{
+		return ERROR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	buff[0] = 0xff & (channel - 1);
+	resp = i2cMem8Write(dev, I2C_MEM_1WB_ROM_CODE_IDX, buff, 1);//Select sensor ID to read
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_DEV, buff, 1);//check the number of connected sensors
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+	if(channel > buff[0])
+	{
+		printf("Invalid channel number, only %d sensors connected!\n", buff[0]);
+		return ERROR;
+	}
+	
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_ROM_CODE , buff, 8);
+	if (FAIL == resp)
+	{
+		printf("Fail to read one wire bus info!\n");
+		return ERROR;
+	}
+
+	memcpy(&romID, &buff[0], 8);
+	
+	printf("0x%llx\n", romID);
+	return OK;
+}
+
+int doOwbSensCountRead(int argc, char *argv[]);
+const CliCmdType CMD_OWB_SNS_CNT_RD =
+{
+	"owbcntrd",
+	2,
+	&doOwbSensCountRead,
+	"\towbcntrd		Display the number of One Wire Bus connected sensors\n",
+	"\tUsage:		megaind <stack> owbcntrd\n",
+	"",
+	"\tExample:		megaind 0 owbcntrd  Display the number of sensors connected\n"};
+
+int doOwbSensCountRead(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff[2];
+	int resp = 0;
+	
 	if (argc != 3)
 	{
 		return ARG_CNT_ERR;
@@ -374,21 +502,53 @@ int doOwbGet(int argc, char *argv[])
 	{
 		return ERROR;
 	}
-	resp = i2cMem8Read(dev, I2C_MEM_1WB_DEV, buff, 3);
+	resp = i2cMem8Read(dev, I2C_MEM_1WB_DEV, buff, 1);
 	if (FAIL == resp)
 	{
-		printf("Fail to read one wire bus info!\n");
+		printf("Fail to read!\n");
 		return ERROR;
 	}
-	if (buff[0] == 0)
-	{
-		printf("No sensor connected!\n");
-		return OK;
-	}
-	memcpy(&resp, &buff[1], 2);
-	temp = (float)resp / 100;
 
-	printf("%0.2f C\n", temp);
+	printf("%d\n", buff[0]);
+	return OK;
+}
+
+
+int doOwbScan(int argc, char *argv[]);
+const CliCmdType CMD_OWB_SCAN =
+{
+	"owbscan",
+	2,
+	&doOwbScan,
+	"\towbscan		Start One Wire Bus scaning procedure\n",
+	"\tUsage:		megaind <stack> owbscan\n",
+	"",
+	"\tExample:		megaind 0 owbscan  Start One Wire Bus scaning procedure\n"};
+
+int doOwbScan(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff[2];
+	int resp = 0;
+	
+	if (argc != 3)
+	{
+		return ARG_CNT_ERR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	buff[0] = 0xaa;
+	resp = i2cMem8Write(dev, I2C_MEM_1WB_START_SEARCH, buff, 1);
+	if (FAIL == resp)
+	{
+		printf("Fail to write!\n");
+		return ERROR;
+	}
+
+	printf("OK\n");
 	return OK;
 }
 
@@ -440,6 +600,9 @@ const CliCmdType *gCmdArray[] =
 	&CMD_RTC_GET,
 	&CMD_RTC_SET,
 	&CMD_OWB_RD,
+	&CMD_OWB_ID_RD,
+	&CMD_OWB_SNS_CNT_RD,
+	&CMD_OWB_SCAN,
 	NULL}; //null terminated array of cli structure pointers
 
 int main(int argc, char *argv[])
