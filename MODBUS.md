@@ -163,6 +163,7 @@ Access level Read Only, Size 16 bits
 | OWB_ID_C_TEMP16| 30095 |  ID C Temperature 16 |  |
 | OWB_ID_D_TEMP16| 30096 |  ID D Temperature 16 |  |
 
+
 ### Holding registers
 
 Access level Read/Write, Size 16 bits
@@ -181,6 +182,7 @@ Access level Read/Write, Size 16 bits
 | OPEN_DRAIN_PWM_2 | 40010 | 0x09 |  | 0..10000 |
 | OPEN_DRAIN_PWM_3 | 40011 | 0x0a |  | 0..10000 |
 | OPEN_DRAIN_PWM_4 | 40012 | 0x0b |  | 0..10000 |
+
 
 ## Function codes implemented
 
