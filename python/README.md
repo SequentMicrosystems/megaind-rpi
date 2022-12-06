@@ -380,3 +380,36 @@ h - hour
 m - minutes
 
 s - seconds
+
+
+## Owire Bus Functions
+
+### owbScan(stack)
+Start scanning for connected sensors
+
+ stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+### owbGetSensorNo(stack)
+Get the numbers of 18B20 sensors connected on the bus
+
+ stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+
+ return number of connected sensors
+
+### owbGetTemp(stack, sensor)
+Read the temperature aquired by one sensor
+
+ stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+ 
+ sensor - sensor number [1..16]
+
+ return temperature in degree Celsius
+ 
+ ### owbGetRomCode(stack, sensor)
+ Read the unic ROM code of one sensor
+ 
+  stack - stack level of the megaind  card (selectable from address jumpers [0..7])
+ 
+  sensor - sensor number [1..16]
+
+  return ROM code as 8 bytes array
