@@ -4,7 +4,7 @@ import time
 
 __HW_ADD_BASE = 0x50
 VOLT_TO_MILIVOLT = 1000.0
-
+BUS_NO = 1  # change this in case of using different SBC, for example use 7 for ROCK 4 SE
 
 def checkStack(stack):
     if stack < 0 or stack > 7:
@@ -16,6 +16,9 @@ def checkChannel(ch, limit=4):
     if ch < 1 or ch > limit:
         raise ValueError('Invalid channel number!')
 
+def checkOwbSns(ch):
+    if ch < 1 or ch > 16:
+        raise ValueError('One Wire Bus sensor number out of range [1..16]')
 
 def getWord(bus, hwAdd, add):
     retry = 0
@@ -38,7 +41,7 @@ I2C_MEM_REVISION_MINOR = 121
 
 def getFwVer(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         major = bus.read_byte_data(hwAdd, I2C_MEM_REVISION_MAJOR)
         minor = bus.read_byte_data(hwAdd, I2C_MEM_REVISION_MINOR)
@@ -51,7 +54,7 @@ def getFwVer(stack):
 
 def getRaspVolt(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_word_data(hwAdd, I2C_MEM_DIAG_5V)
     except Exception as e:
@@ -63,7 +66,7 @@ def getRaspVolt(stack):
 
 def getPowerVolt(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, I2C_MEM_DIAG_24V)
     bus.close()
     return val / VOLT_TO_MILIVOLT
@@ -71,7 +74,7 @@ def getPowerVolt(stack):
 
 def getCpuTemp(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_DIAG_TEMPERATURE)
     except Exception as e:
@@ -90,7 +93,7 @@ U_0_10_OUT_VAL1_ADD = 4
 def get0_10In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, U0_10_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT
@@ -99,7 +102,7 @@ def get0_10In(stack, channel):
 def getpm10In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, U_PM_10_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT - 10
@@ -108,7 +111,7 @@ def getpm10In(stack, channel):
 def get0_10Out(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, U_0_10_OUT_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / VOLT_TO_MILIVOLT
@@ -117,7 +120,7 @@ def get0_10Out(stack, channel):
 def set0_10Out(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     if value < 0 or value > 10:
         raise ValueError("Invalid value!")
     try:
@@ -137,7 +140,7 @@ MILLIAMP_TO_MICROAMP = 1000.0
 def get4_20In(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, I4_20_IN_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / 1000.0
@@ -146,7 +149,7 @@ def get4_20In(stack, channel):
 def get4_20Out(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, I4_20_OUT_VAL1_ADD + (2 * (channel - 1)))
     bus.close()
     return val / 1000.0
@@ -155,7 +158,7 @@ def get4_20Out(stack, channel):
 def set4_20Out(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     if value < 4 or value > 20:
         raise ValueError("Invalid value!")
     try:
@@ -181,7 +184,7 @@ I2C_MEM_OPTO_COUNT1 = 106
 def getOptoCh(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_IN_VAL)
     except Exception as e:
@@ -195,7 +198,7 @@ def getOptoCh(stack, channel):
 
 def getOpto(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_IN_VAL)
     except Exception as e:
@@ -208,7 +211,7 @@ def getOpto(stack):
 def getOptoCount(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_word_data(hwAdd, I2C_MEM_OPTO_COUNT1 + (2 * (channel - 1)))
     except Exception as e:
@@ -221,7 +224,7 @@ def getOptoCount(stack, channel):
 def rstOptoCount(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         bus.write_byte_data(hwAdd, I2C_MEM_OPTO_CH_CONT_RESET, int(channel))
     except Exception as e:
@@ -233,7 +236,7 @@ def rstOptoCount(stack, channel):
 def getOptoRisingCountEnable(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_RISING_ENABLE)
     except Exception as e:
@@ -248,7 +251,7 @@ def getOptoRisingCountEnable(stack, channel):
 def setOptoRisingCountEnable(stack, channel, state):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_RISING_ENABLE)
     except Exception as e:
@@ -269,7 +272,7 @@ def setOptoRisingCountEnable(stack, channel, state):
 def getOptoFallingCountEnable(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_FALLING_ENABLE)
     except Exception as e:
@@ -284,7 +287,7 @@ def getOptoFallingCountEnable(stack, channel):
 def setOptoFallingCountEnable(stack, channel, state):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_OPTO_FALLING_ENABLE)
     except Exception as e:
@@ -305,7 +308,7 @@ def setOptoFallingCountEnable(stack, channel, state):
 def setOdPWM(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     if value < 0 or value > 100:  # prcent
         raise ValueError("Invalid value!")
     try:
@@ -319,7 +322,7 @@ def setOdPWM(stack, channel, value):
 def getOdPWM(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     val = getWord(bus, hwAdd, I2C_MEM_OD_PWM1 + (2 * (channel - 1)))
     bus.close()
     return val / 100.0
@@ -328,7 +331,7 @@ def getOdPWM(stack, channel):
 def setLed(stack, channel, val):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     out = channel + 4
     try:
         if val != 0:
@@ -346,7 +349,7 @@ def setLedAll(stack, val):
         raise ValueError("Invalid value!")
     val = val << 4
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         bus.write_byte_data(hwAdd, I2C_MEM_RELAY_VAL, val)
     except Exception as e:
@@ -358,7 +361,7 @@ def setLedAll(stack, val):
 def getLed(stack, channel):
     checkChannel(channel)
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     mask = 1 << (channel + 3)
     try:
         val = bus.read_byte_data(hwAdd, I2C_MEM_RELAY_VAL)
@@ -387,7 +390,7 @@ RELOAD_KEY = 202
 
 def wdtGetPeriod(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_word_data(hwAdd, I2C_MEM_WDT_INTERVAL_GET_ADD)
     except Exception as e:
@@ -402,7 +405,7 @@ def wdtSetPeriod(stack, val):
     hwAdd = checkStack(stack)
     if val < 10 or val > 65000:
         raise ValueError('Invalid interval value [10..65000]')
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         bus.write_word_data(hwAdd, I2C_MEM_WDT_INTERVAL_SET_ADD, val)
     except Exception as e:
@@ -415,7 +418,7 @@ def wdtSetPeriod(stack, val):
 def wdtReload(stack):
     ret = 1
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         bus.write_byte_data(hwAdd, I2C_MEM_WDT_RESET_ADD, RELOAD_KEY)
     except Exception as e:
@@ -430,7 +433,7 @@ def wdtSetDefaultPeriod(stack, val):
     hwAdd = checkStack(stack)
     if val < 10 or val > 64999:
         raise ValueError('Invalid interval value [10..64999]')
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         bus.write_word_data(hwAdd, I2C_MEM_WDT_INIT_INTERVAL_SET_ADD, val)
     except:
@@ -442,7 +445,7 @@ def wdtSetDefaultPeriod(stack, val):
 
 def wdtGetDefaultPeriod(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_word_data(hwAdd, I2C_MEM_WDT_INIT_INTERVAL_GET_ADD)
     except Exception as e:
@@ -457,7 +460,7 @@ def wdtSetOffInterval(stack, val):
     hwAdd = checkStack(stack)
     if 10 > val or val > WDT_MAX_POWER_OFF_INTERVAL:
         raise ValueError('Invalid interval value [2..4147200]')
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     buff = [0, 0, 0, 0]
     buff[0] = 0xff & val
     buff[1] = 0xff & (val >> 8)
@@ -474,7 +477,7 @@ def wdtSetOffInterval(stack, val):
 
 def wdtGetOffInterval(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         buff = bus.read_i2c_block_data(hwAdd, I2C_MEM_WDT_POWER_OFF_INTERVAL_GET_ADD, 4)
         val = buff[0] + (buff[1] << 8) + (buff[2] << 16) + (buff[3] << 24)
@@ -487,7 +490,7 @@ def wdtGetOffInterval(stack):
 
 def wdtGetResetCount(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         val = bus.read_word_data(hwAdd, I2C_MEM_WDT_RESET_COUNT_ADD)
     except Exception as e:
@@ -514,7 +517,7 @@ I2C_RTC_CMD_ADD = 82
 
 def rtcGet(stack):
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     try:
         buff = bus.read_i2c_block_data(hwAdd, I2C_RTC_YEAR_ADD, 6)
     except Exception as e:
@@ -541,7 +544,7 @@ def rtcSet(stack, y, mo, d, h, m, s):
     if s < 0 or s > 59:
         raise ValueError("Invalid seconds!")
     hwAdd = checkStack(stack)
-    bus = smbus.SMBus(1)
+    bus = smbus.SMBus(BUS_NO)
     buff = [int(y), int(mo), int(d), int(h), int(m), int(s), 0xaa]
     # buff[0] = int(y)
     # buff[1] = int(mo)
@@ -556,3 +559,63 @@ def rtcSet(stack, y, mo, d, h, m, s):
         bus.close()
         raise ValueError(e)
     bus.close()
+
+
+I2C_MEM_1WB_DEV = 147
+I2C_MEM_1WB_TEMP_ALL = 148
+I2C_MEM_1WB_START_SEARCH = 173
+I2C_MEM_1WB_T1 = 174
+I2C_MEM_1WB_ROM_CODE_IDX = 150
+I2C_MEM_1WB_ROM_CODE = 151
+OWB_TEMP_SIZE_B = 2
+OWM_ROM_CODE_SIZE_B = 8
+
+def owbScan(stack):
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(BUS_NO)
+    buf = 0xaa
+    try:
+        bus.write_byte_data(hwAdd, I2C_MEM_1WB_START_SEARCH, buf)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to write with exception " + str(e))
+    bus.close()
+
+
+def owbGetSensorNo(stack):
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(BUS_NO)
+    try:
+        no = bus.read_byte_data(hwAdd, I2C_MEM_1WB_DEV)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to read with exception " + str(e))
+    bus.close()
+    return no
+
+
+def owbGetTemp(stack, sensor):
+    checkOwbSns(sensor)
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(BUS_NO)
+    try:
+        temp = bus.read_word_data(hwAdd, I2C_MEM_1WB_T1 + OWB_TEMP_SIZE_B * (sensor - 1))
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to read with exception " + str(e))
+    bus.close()
+    return temp / 100.0
+
+
+def owbGetRomCode(stack, sensor):
+    checkOwbSns(sensor)
+    hwAdd = checkStack(stack)
+    bus = smbus.SMBus(BUS_NO)
+    try:
+        bus.write_byte_data(hwAdd, I2C_MEM_1WB_ROM_CODE_IDX, sensor - 1)  # Select the sensor
+        buff = bus.read_i2c_block_data(hwAdd, I2C_MEM_1WB_ROM_CODE, 8)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to read with exception " + str(e))
+    bus.close()
+    return buff
