@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-sm-ind",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "bundleDependencies": false,
   "dependencies": {
     "i2c-bus": "^5.2.0"
