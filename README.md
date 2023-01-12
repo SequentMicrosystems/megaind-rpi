@@ -36,7 +36,7 @@ Install the command:
 ~/megaind-rpi$ sudo make install
 ```
 
-Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/industrial-automation/products/raspberry-pi-industrial-automation) through the command "megaind". Use -h option for help:
+Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi) through the command "megaind". Use -h option for help:
 ```bash
 ~$ megaind -h
 ```
