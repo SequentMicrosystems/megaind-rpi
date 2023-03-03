@@ -10,4 +10,4 @@ $  sudo /home/pi/megaind-rpi/rtc/set_time.sh
 
 The actual PATH might be different depending on your megaind-rpi PATH
 
-The script can be run manually to check and fix the system time or can be run in a cron at a few minutes intervals.
+The script can be run manually to check and fix the system time or can be run from cron at a few minutes intervals.
