@@ -55,3 +55,5 @@ If you clone the repository any update can be made with the following commands:
 [firmware update instructions](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/update).
 
 The board can act as Modbus RTU slave device, checkout [modbus instructions](https://github.com/SequentMicrosystems/megaind-rpi/blob/master/MODBUS.md).
+
+[RTC Usage](rtc/README.md)
