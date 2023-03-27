@@ -133,6 +133,17 @@ through ```msg.stack```.
 
 The date and time are set dynamically as a Date via ```msg.payload```.
 
+### IND OWB Temp
+This node reads the temperature from 18B20 sensors connected on the one wire bus interface of the cards
+
+Card stack level and sensor channel number can be set in the node dialog box or dynamically through ```msg.stack``` and ```msg.channel```.
+The read is triggered by the message input and output can be found in the output message payload as boolean.
+
+### IND OWB Scan
+This node start the connected sensors scaning process 
+
+Card stack level can be set in the node dialog box or dynamically through ```msg.stack```
+
 ## Important note
 
 This node is using the I2C-bus package from @fivdi, you can visit his work on github [here](https://github.com/fivdi/i2c-bus). 
