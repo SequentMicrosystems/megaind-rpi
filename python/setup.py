@@ -14,9 +14,6 @@ setuptools.setup(
     author_email='olcitu@gmail.com',
     url='https://sequentmicrosystems.com',
     keywords=['industrial', 'raspberry', 'power', '4-20mA', '0-10V', 'optoisolated'],
-    install_requires=[
-        "smbus",
-    ],
     classifiers=[
         'Development Status :: 5 - Beta',
         # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
