@@ -6,28 +6,13 @@ This is the python library to control the [Industrial Automation Stackable Card 
 ## Install
 
 ```bash
-~$ sudo apt-get update
-~$ sudo apt-get install build-essential python-pip python-dev python-smbus git
-~$ git clone https://github.com/SequentMicrosystems/megaind-rpi.git
-~$ cd megaind-rpi/python/
-~/megaind-rpi/python$ sudo python setup.py install
-```
-For Python3.X:
-```
-~$ sudo apt-get update
-~$ sudo apt-get install build-essential python3-pip python3-dev python3-smbus git
-~$ git clone https://github.com/SequentMicrosystems/megaind-rpi.git
-~$ cd megaind-rpi/python/
-~/megaind-rpi/python$ sudo python3 setup.py install
+sudo pip install SMmegaind
 ```
 
 ## Update
 
 ```bash
-~$ cd megaind-rpi/
-~/megaind-rpi$ git pull
-~$ cd megaind-rpi/python/
-~/megaind-rpi/python$ sudo python setup.py install
+sudo pip install --upgrade SMmegaind
 ```
 
 ## Usage 
