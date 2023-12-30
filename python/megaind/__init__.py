@@ -328,6 +328,37 @@ def getOdPWM(stack, channel):
     return val / 100.0
 
 
+def setOd(stack, channel, val):
+    checkChannel(channel)
+    hwAdd = checkStack(stack)
+    bus = smbus2.SMBus(BUS_NO)
+    try:
+        if val != 0:
+            bus.write_byte_data(hwAdd, I2C_MEM_RELAY_SET, channel)
+        else:
+            bus.write_byte_data(hwAdd, I2C_MEM_RELAY_CLR, channel)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to Write OD with exception " + str(e))
+    bus.close()
+
+
+def getOd(stack, channel):
+    checkChannel(channel)
+    hwAdd = checkStack(stack)
+    bus = smbus2.SMBus(BUS_NO)
+    mask = 1 << (channel - 1)
+    try:
+        val = bus.read_byte_data(hwAdd, I2C_MEM_RELAY_VAL)
+    except Exception as e:
+        bus.close()
+        raise Exception("Fail to Get OD's with exception " + str(e))
+    bus.close()
+    if val & mask:
+        return 1
+    return 0
+
+
 def setLed(stack, channel, val):
     checkChannel(channel)
     hwAdd = checkStack(stack)
