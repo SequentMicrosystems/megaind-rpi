@@ -277,7 +277,7 @@
     </div>
     
     <div class="form-row">
-        <label for="node-input-channel"><i class="fa fa-empire"></i> 0 - 10V input channel</label>
+        <label for="node-input-channel"><i class="fa fa-empire"></i> 4 - 20mA input channel</label>
         <input id="node-input-channel" class="ind-out-channel" placeholder="[msg.channel]" min=1 max=8 style="width:100px; height:16px;">
     </div>
     <div class="form-row">
@@ -293,7 +293,7 @@
  
 <script type="text/html" data-help-name="IND 4-20mA in">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card 4-20mA inputs </p>
-    <p>The node outputs the 4-20mA input port readed value in volts when is receiving an input message</p> 
+    <p>The node outputs the 4-20mA input port readed value in milliamps when is receiving an input message</p> 
     <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
     <p>You can specify the channel number in the edit dialog box or programaticaly with the input message <code>msg.channel</code></p>
 </script>
@@ -755,7 +755,7 @@
  
 <script type="text/html" data-help-name="IND CPU Temp">
     <p>Provides a connection to an Sequent Microsystems Industrial Automation Card CPU thermometer </p>
-    <p>The node outputs the integer temperature in Celcius when it receives an input message</p> 
+    <p>The node outputs the integer temperature in Celsius when it receives an input message</p> 
     <p>You can specify the card stack level in the edit dialog box or programaticaly with the input message <code>msg.stack</code></p>
 </script>
 
