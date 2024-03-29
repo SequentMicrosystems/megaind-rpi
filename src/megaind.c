@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)4
+#define VERSION_MINOR	(int)5
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -363,6 +363,7 @@ int doOwbGet(int argc, char *argv[])
 	int dev = -1;
 	u8 buff[5];
 	int resp = 0;
+	int16_t rawResp = 0;
 	int channel = 0;
 	float temp = 0;
 
@@ -403,8 +404,8 @@ int doOwbGet(int argc, char *argv[])
 //		printf("No sensor connected!\n");
 //		return OK;
 //	}
-	memcpy(&resp, &buff[0], 2);
-	temp = (float)resp / 100;
+	memcpy(&rawResp, &buff[0], 2);
+	temp = (float)rawResp / 100;
 
 	printf("%0.2f C\n", temp);
 	return OK;
