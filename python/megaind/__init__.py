@@ -467,7 +467,7 @@ def wdtSetDefaultPeriod(stack, val):
     bus = smbus2.SMBus(BUS_NO)
     try:
         bus.write_word_data(hwAdd, I2C_MEM_WDT_INIT_INTERVAL_SET_ADD, val)
-    except:
+    except Exception as e:
         bus.close()
         raise ValueError(e)
     bus.close()
