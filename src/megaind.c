@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)5
+#define VERSION_MINOR	(int)6
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -563,6 +563,7 @@ const CliCmdType *gCmdArray[] =
 	&CMD_VB_RD,
 	&CMD_OPTO_READ,
 	&CMD_COUNTER_READ,
+	&CMD_IF_READ,
 	&CMD_COUNTER_RST,
 	&CMD_EDGE_READ,
 	&CMD_EDGE_WRITE,

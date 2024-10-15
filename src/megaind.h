@@ -120,6 +120,10 @@ enum
 	I2C_MEM_1WB_ROM_CODE_IDX = I2C_MEM_1WB_TEMP_ALL + OWB_TEMP_SIZE_B,
 	I2C_MEM_1WB_ROM_CODE,//rom code 64 bits
 	I2C_MEM_1WB_ROM_CODE_END = I2C_MEM_1WB_ROM_CODE + 7,
+	I2C_MEM_OPTO_FREQ1,
+	I2C_MEM_OPTO_FREQ2 = I2C_MEM_OPTO_FREQ1 + UI_VAL_SIZE,
+	I2C_MEM_OPTO_FREQ3 = I2C_MEM_OPTO_FREQ2 + UI_VAL_SIZE,
+	I2C_MEM_OPTO_FREQ4 = I2C_MEM_OPTO_FREQ3 + UI_VAL_SIZE,
 
 
 
@@ -226,6 +230,7 @@ int doBoardInit(int stack);
 	extern const CliCmdType CMD_UOUT_READ;
 	extern const CliCmdType CMD_IOUT_READ;
 	extern const CliCmdType CMD_OD_READ;
+	extern const CliCmdType CMD_IF_READ;
 	extern const CliCmdType CMD_UOUT_WRITE;
 	extern const CliCmdType CMD_IOUT_WRITE;
 	extern const CliCmdType CMD_OD_WRITE;

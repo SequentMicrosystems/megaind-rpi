@@ -203,6 +203,51 @@ int doODRead(int argc, char *argv[])
 	return OK;
 }
 
+int doOptoFreqRead(int argc, char *argv[]);
+const CliCmdType CMD_IF_READ =
+	{
+		"ifrd",
+		2,
+		&doOptoFreqRead,
+		"\tifrd:		Read frequency applied to opto inputs \n",
+		"\tUsage:		megaind <id> ifrd <channel>\n",
+		"",
+		"\tExample:		megaind 0 ifrd 2; Read the signal frequency applied to opto input channel #2 on Board #0\n"};
+
+int doOptoFreqRead(int argc, char *argv[])
+{
+	int ch = 0;
+	float val = 0;
+	int dev = 0;
+
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+
+	if (argc == 4)
+	{
+		ch = atoi(argv[3]);
+		if ( (ch < CHANNEL_NR_MIN) || (ch > OD_CH_NR_MAX))
+		{
+			printf("Opto input channel out of range!\n");
+			return ERROR;
+		}
+		if (OK != val16Get(dev, I2C_MEM_OPTO_FREQ1, ch, 1, &val))
+		{
+			return ERROR;
+		}
+		printf("%d\n", (int)val);
+	}
+	else
+	{
+		return ARG_CNT_ERR;
+	}
+	return OK;
+}
+
+
 int doUOutWrite(int argc, char *argv[]);
 const CliCmdType CMD_UOUT_WRITE =
 	{
@@ -288,9 +333,9 @@ int doIOutWrite(int argc, char *argv[])
 			return ERROR;
 		}
 		volt = atof(argv[4]);
-		if (volt < 4 || volt > 20)
+		if (volt < 0 || volt > 20)
 		{
-			printf("Invalid current value, must be 4..20 \n");
+			printf("Invalid current value, must be 0..20 \n");
 			return ERROR;
 		}
 
