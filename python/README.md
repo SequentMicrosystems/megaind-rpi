@@ -276,6 +276,12 @@ channel - selected LED number [1..4]
 
 return 0 if the LED is OFF, 1 if is ON
 
+### getOptoFrequency(stack, channel)
+Get the frequency of the signal connected on one of the 4 optically isolated inputs.
+
+channel - selected LED number [1..4]
+
+return frequency expressed in Hz
 
 ## Watcdog Timer Functions
 

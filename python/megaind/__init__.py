@@ -159,7 +159,7 @@ def set4_20Out(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus2.SMBus(BUS_NO)
-    if value < 4 or value > 20:
+    if value < 0 or value > 20:
         raise ValueError("Invalid value!")
     try:
         bus.write_word_data(hwAdd, I4_20_OUT_VAL1_ADD + (2 * (channel - 1)), int(value * 1000))
@@ -179,6 +179,7 @@ I2C_MEM_OPTO_RISING_ENABLE = 103
 I2C_MEM_OPTO_FALLING_ENABLE = 104
 I2C_MEM_OPTO_CH_CONT_RESET = 105
 I2C_MEM_OPTO_COUNT1 = 106
+I2C_MEM_OPTO_FREQ1 = 159
 
 
 def getOptoCh(stack, channel):
@@ -403,6 +404,14 @@ def getLed(stack, channel):
     if val & mask:
         return 1
     return 0
+
+def getOptoFrequency(stack, channel):
+    checkChannel(channel)
+    hwAdd = checkStack(stack)
+    bus = smbus2.SMBus(BUS_NO)
+    val = getWord(bus, hwAdd, I2C_MEM_OPTO_FREQ1 + (2 * (channel - 1)))
+    bus.close()
+    return val
 
 
 # watchdog functions
