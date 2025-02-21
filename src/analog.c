@@ -221,6 +221,52 @@ int doODRead(int argc, char *argv[])
 	return OK;
 }
 
+int doODFreqRead(int argc, char *argv[]);
+const CliCmdType CMD_OD_FREQ_READ =
+	{"odfrd", 2, &doODFreqRead,
+		"\todfrd:		Read open-drain Output PWM frequency(10..6400Hz) \n",
+		"\tUsage:		megaind <id> odfrd <channel>\n", "",
+		"\tExample:		megaind 0 odfrd 2; Read the PWM frequency on open-drain output channel #2 on Board #0\n"};
+
+int doODFreqRead(int argc, char *argv[])
+{
+	int ch = 0;
+	float val = 0;
+	int dev = 0;
+
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+
+	if (argc == 4)
+	{
+		ch = atoi(argv[3]);
+		if ( (ch < CHANNEL_NR_MIN) || (ch > OD_CH_NR_MAX))
+		{
+			printf("Open-drain Output channel out of range!\n");
+			return ERROR;
+		}
+		if(ch == OD_CH_NR_MAX)
+		{
+			val = 6400;
+		}
+		else
+		if (OK != val16Get(dev, I2C_MEM_OD1_FREQ, ch, 1, &val))
+		{
+			return ERROR;
+		}
+		printf("%d\n", (int)val);
+	}
+	else
+	{
+		return ARG_CNT_ERR;
+	}
+	return OK;
+}
+
+
 int doOptoFreqRead(int argc, char *argv[]);
 const CliCmdType CMD_IF_READ =
 	{"ifrd", 2, &doOptoFreqRead,
@@ -403,7 +449,52 @@ int doODWrite(int argc, char *argv[])
 	}
 	return OK;
 }
+int doODFreqWrite(int argc, char *argv[]);
+const CliCmdType CMD_OD_FREQ_WRITE =
+	{"odfwr", 2, &doODFreqWrite,
+		"\todfwr:		Write open-drain output PWM frequency value (10..6400Hz)\n",
+		"\tUsage:		megaind <id> odfwr <channel[1..3]> <value[10..6400]>\n", "",
+		"\tExample:		megaind 0 odfwr 2 250; Set PWM frequency of 250Hz for open-drain output channel #2 on Board #0\n"};
 
+int doODFreqWrite(int argc, char *argv[])
+{
+	int ch = 0;
+	int dev = 0;
+	int frequency = 0;
+
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+
+	if (argc == 5)
+	{
+		ch = atoi(argv[3]);
+		if ( (ch < CHANNEL_NR_MIN) || (ch > 3))
+		{
+			printf("Invalid Open-drain channel for frequency change, must be 1..3!\n");
+			return ERROR;
+		}
+		frequency = atoi(argv[4]);
+		if (frequency < 10 || frequency > 6400)
+		{
+			printf("Invalid PWM frequency value, must be 10..6400 \n");
+			return ERROR;
+		}
+
+		if (OK != val16Set(dev, I2C_MEM_OD1_FREQ, ch, 1, frequency))
+		{
+			return ERROR;
+		}
+		printf("done\n");
+	}
+	else
+	{
+		return ARG_CNT_ERR;
+	}
+	return OK;
+}
 int doUInRead(int argc, char *argv[]);
 const CliCmdType CMD_UIN_READ =
 	{"uinrd", 2, &doUInRead, "\tuinrd:		Read 0-10V input value (V) \n",

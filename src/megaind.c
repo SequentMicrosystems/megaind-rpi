@@ -21,12 +21,12 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)7
+#define VERSION_MINOR	(int)8
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
 char *warranty =
-	"	       Copyright (c) 2016-2020 Sequent Microsystems\n"
+	"	       Copyright (c) 2016-2025 Sequent Microsystems\n"
 		"                                                             \n"
 		"		This program is free software; you can redistribute it and/or modify\n"
 		"		it under the terms of the GNU Leser General Public License as published\n"
@@ -572,7 +572,9 @@ const CliCmdType *gCmdArray[] =
 	&CMD_IOUT_READ,
 	&CMD_IOUT_WRITE,
 	&CMD_OD_READ,
+	&CMD_OD_FREQ_READ,
 	&CMD_OD_WRITE,
+	&CMD_OD_FREQ_WRITE,
 	&CMD_DOD_READ,
 	&CMD_DOD_WRITE,
 	&CMD_LED_READ,

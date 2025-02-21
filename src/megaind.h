@@ -129,13 +129,15 @@ enum
 	I2C_MEM_OPTO_FREQ4 = I2C_MEM_OPTO_FREQ3 + UI_VAL_SIZE,
 
 
-
 	I2C_MEM_CPU_RESET = 0xaa,
 	I2C_MEM_HSI_LO,
 	I2C_MEM_HSI_HI,
 	I2C_MEM_1WB_START_SEARCH,
 	I2C_MEM_1WB_T1,
 	I2C_MEM_1WB_T16 = I2C_MEM_1WB_T1 + OWB_SENS_CNT * OWB_TEMP_SIZE_B,
+	I2C_MEM_OD1_FREQ = I2C_MEM_1WB_T16 + UI_VAL_SIZE,
+	I2C_MEM_OD2_FREQ = I2C_MEM_OD1_FREQ + UI_VAL_SIZE,
+	I2C_MEM_OD3_FREQ = I2C_MEM_OD2_FREQ + UI_VAL_SIZE,
 	I2C_MEM_SIZE = 255
 	//SLAVE_BUFF_SIZE = 255
 };
@@ -233,6 +235,7 @@ int doBoardInit(int stack);
 	extern const CliCmdType CMD_UOUT_READ;
 	extern const CliCmdType CMD_IOUT_READ;
 	extern const CliCmdType CMD_OD_READ;
+	extern const CliCmdType CMD_OD_FREQ_READ;
 	extern const CliCmdType CMD_IF_READ;
 	extern const CliCmdType CMD_UOUT_WRITE;
 	extern const CliCmdType CMD_IOUT_WRITE;
@@ -248,6 +251,8 @@ int doBoardInit(int stack);
 	extern const CliCmdType CMD_IOUT_CAL;
 	extern const CliCmdType CMD_UOUT_CAL_RST;
 	extern const CliCmdType CMD_IOUT_CAL_RST;
+	extern const CliCmdType CMD_OD_FREQ_WRITE;
+
 	
 // digital control OD
 	extern const CliCmdType CMD_DOD_READ;
