@@ -9,8 +9,8 @@
 #pip install multiio
 
 
-#with open("README.md", 'r') as f:
-#    long_description = f.read()
+with open("README.md", 'r') as f:
+    long_description = f.read()
 
 from setuptools import setup, find_packages
 setup(
@@ -19,8 +19,8 @@ setup(
     version='1.0.4',
     license='MIT',
     description='Library to control PLACEHOLDER Automation Card',
-    #long_description=long_description,
-    #long_description_content_type="text/markdown",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Sequent Microsystems',
     author_email='olcitu@gmail.com',
     url='https://sequentmicrosystems.com',
