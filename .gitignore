@@ -53,4 +53,4 @@ dkms.conf
 
 /python/build/
 /python/dist/
-/python/SMmegaind.egg-info/
+/python/*.egg-info/

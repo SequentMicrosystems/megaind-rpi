@@ -14,9 +14,9 @@
 
 from setuptools import setup, find_packages
 setup(
-    name='SMmegaind',
+    name='smmegaind',
     packages=find_packages(),
-    version='1.0.3',
+    version='1.0.4',
     license='MIT',
     description='Library to control PLACEHOLDER Automation Card',
     #long_description=long_description,
