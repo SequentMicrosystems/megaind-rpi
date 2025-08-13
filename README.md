@@ -10,30 +10,31 @@ This is the command to control [Industrial Automation Stackable Card for Raspber
 
 Enable I2C communication first:
 ```bash
-~$ sudo raspi-config
+sudo raspi-config
 ```
 A good article about I2C on Raspberry can be found [here.](https://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/) 
 
 If you use Ubuntu you need to install ```raspi-config``` first:
 
 ```bash
-~$ sudo apt update
-~$ sudo apt install raspi-config
+sudo apt update
+sudo apt install raspi-config
 ```
 
 Make sure you have all tools you need:
 ```bash
-~$ sudo apt update
-~$ sudo apt-get install git
-~$ sudo apt-get install build-essential
+sudo apt update
+sudo apt-get install git
+sudo apt-get install build-essential
 ```
 ## Usage
 
 Install the command:
 ```bash
-~$ git clone https://github.com/SequentMicrosystems/megaind-rpi.git
-~$ cd megaind-rpi/
-~/megaind-rpi$ sudo make install
+cd
+git clone https://github.com/SequentMicrosystems/megaind-rpi.git
+megaind-rpi/
+sudo make install
 ```
 
 Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi) through the command "megaind". Use -h option for help:
@@ -41,12 +42,13 @@ Now you can access all the functions of the [Industrial Automation Stackable Car
 ~$ megaind -h
 ```
 
-If you clone the repository any update can be made with the following commands:
+If you clone the repository, any update can be made with the following commands:
 
 ```bash
-~$ cd megaind-rpi/  
-~/megaind-rpi$ git pull
-~/megaind-rpi$ sudo make install
+cd
+cd megaind-rpi/  
+git pull
+sudo make install
 ```  
 [Python Library](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python)
 
