@@ -33,7 +33,7 @@ Install the command:
 ```bash
 cd
 git clone https://github.com/SequentMicrosystems/megaind-rpi.git
-megaind-rpi/
+cd megaind-rpi/
 sudo make install
 ```
 
