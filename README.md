@@ -2,34 +2,55 @@
 
 # megaind-rpi
 
-This is the command to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi).
+Official Command Line Interface to control [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi).
 
 ![MEGA-IND](res/IND.jpg)
 
-## Setup
+If you would rather not use the command line, check out:
 
-Enable I2C communication first:
-```bash
-sudo raspi-config
-```
-A good article about I2C on Raspberry can be found [here.](https://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/) 
+- [Python Library](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python)
+- [NodeRed nodes](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/node-red-contrib-sm-ind)
+- [CODESYS](https://github.com/SequentMicrosystems/SM_CODESYS)
+- [OpenPLC]()
+- [Home Assistant](https://github.com/sequentmicrosystems/smmultiio-ha)
+- [Modbus RTU slave instructions](https://github.com/SequentMicrosystems/megaind-rpi/blob/master/MODBUS.md).
+- [firmware update instructions](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/update/README.md)
 
-If you use Ubuntu you need to install ```raspi-config``` first:
+## Prerequisites
+
+<details>
+    <summary>Enable I2C communication</summary>
+
+    This needs to be done once per Raspberry Pi.
+
+    If you use Ubuntu you need to install ```raspi-config``` first:
+
+    ```bash
+    sudo apt update
+    sudo apt install raspi-config
+    ```
+
+    ```bash
+    sudo raspi-config
+    ```
+
+    Use image from res/i2c/i2c_step1.png
+
+    ![Enable I2C](./res/i2c/i2c_step1.png)
+    ![Enable I2C](./res/i2c/i2c_step2.png)
+    ![Enable I2C](./res/i2c/i2c_step3.png)
+</details>
+Install the necessary tools:
 
 ```bash
 sudo apt update
-sudo apt install raspi-config
+sudo apt install git build-essential
 ```
+    
 
-Make sure you have all tools you need:
-```bash
-sudo apt update
-sudo apt-get install git
-sudo apt-get install build-essential
-```
-## Usage
+## Installation
 
-Install the command:
+Install the cli with:
 ```bash
 cd
 git clone https://github.com/SequentMicrosystems/megaind-rpi.git
@@ -37,25 +58,20 @@ cd megaind-rpi/
 sudo make install
 ```
 
-Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi) through the command "megaind". Use -h option for help:
+To update to the latest version:
 ```bash
-~$ megaind -h
-```
-
-If you clone the repository, any update can be made with the following commands:
-
-```bash
-cd
-cd megaind-rpi/  
+cd ~/megaind-rpi/  
 git pull
 sudo make install
 ```  
-[Python Library](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python)
 
-[NodeRed nodes](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/node-red-contrib-sm-ind)
+## Usage
 
-[firmware update instructions](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/update).
+Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi) through the command "megaind". Use -h option for help:
+```bash
+megaind -h
+```
 
-The board can act as Modbus RTU slave device, checkout [modbus instructions](https://github.com/SequentMicrosystems/megaind-rpi/blob/master/MODBUS.md).
+## Examples
 
 [RTC Usage](rtc/README.md)
