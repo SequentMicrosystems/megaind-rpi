@@ -6,7 +6,7 @@
 
 # For release
 #twine upload dist/*
-#pip install multiio
+#pip install SMmegaind
 
 
 with open("README.md", 'r') as f:
@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 setup(
     name='smmegaind',
     packages=find_packages(),
-    version='1.0.5',
+    version='1.0.6',
     license='MIT',
     description='Library to control PLACEHOLDER Automation Card',
     long_description=long_description,

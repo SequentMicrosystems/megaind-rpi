@@ -1,37 +1,42 @@
+# SMmegaind
 
-# megaind
+Official Python library for controlling the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) from [Sequent Microsystems](https://sequentmicrosystems.com/).
 
-This is the python library to control the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi). 
+It supports Python 2.7, Python 3.7 and newer.
 
-## Install
+## Installation
 
+Install the package with:
 ```bash
 sudo pip install SMmegaind
 ```
 
-## Update
-
+To upgrade to the latest version:
 ```bash
 sudo pip install --upgrade SMmegaind
 ```
 
-## Usage 
+## Quick Start
 
-Now you can import the megaind library and use its functions. To test, read 0 - 10V input channel 1 from the MEGA-IND board with stack level 0:
+Read the 0–10V input from channel 1 on a Industrial Automation Card board with stack level 0:
 
 ```bash
 ~$ python
-Python 2.7.9 (default, Sep 17 2016, 20:26:04)
-[GCC 4.9.2] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
 >>> import megaind
 >>> megaind.get0_10In(0, 1)
 0.003
 >>>
 ```
-Checkout the [/tests](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python/tests) subfolder for more usage examples. 
+
+> NOTE: All functions are installed under the `megaind` package, not to be confused with `SMmegaind`.
+
+## Examples
+
+More usage examples are available in the [/tests](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python/tests) folder.
+
 All tests assume that one card with no address jumpers (stack level = 0) is present.
 
+# Documentation
 
 ## Diagnose Functions
 
