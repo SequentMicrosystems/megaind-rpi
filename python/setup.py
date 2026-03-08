@@ -16,9 +16,9 @@ from setuptools import setup, find_packages
 setup(
     name='smmegaind',
     packages=find_packages(),
-    version='1.0.6',
+    version='1.0.7',
     license='MIT',
-    description='Library to control PLACEHOLDER Automation Card',
+    description='Library to control Industrial Automation Card from Sequent Microsystems',
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Sequent Microsystems',
