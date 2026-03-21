@@ -5,7 +5,7 @@
 
 ![Industrial Automation Stackable Card for Raspberry Pi](res/New_Industrial.png)
 
-## Official Repository for the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) by Sequent Microsystems.
+## [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) by Sequent Microsystems.
 
 The command line interface (CLI) included in this repository gives you full access to every feature of the card. It is the quickest way to get started and is all you need to operate the card.
 
@@ -14,8 +14,8 @@ If you would rather use a different platform, you can access the same functional
 - [Python Library](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/python)
 - [Node-RED nodes](https://github.com/SequentMicrosystems/megaind-rpi/tree/master/node-red-contrib-sm-ind)
 - [CODESYS](https://github.com/SequentMicrosystems/SM_CODESYS)
-- [OpenPLC]()
-- [Home Assistant Integration](https://github.com/sequentmicrosystems/smmultiio-ha)
+- [OpenPLC](https://autonomylogic.com/)
+- [Home Assistant Integration](https://github.com/SequentMicrosystems/SMmegaind-ha)
 - [Modbus RTU slave](https://github.com/SequentMicrosystems/megaind-rpi/blob/master/MODBUS.md)
 
 For a firmware update, please follow the instructions in the link below:
@@ -88,7 +88,7 @@ sudo make install
 
 ## Usage
 
-Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/collections/all-io-cards/products/industrial-raspberry-pi) through the command "megaind". Use -h option for help:
+Now you can access all the functions of the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) through the command "megaind". Use -h option for help:
 
 ```bash
 megaind -h
