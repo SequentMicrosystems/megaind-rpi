@@ -1,19 +1,47 @@
 # SMmegaind
 
-Official Python library for controlling the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) from [Sequent Microsystems](https://sequentmicrosystems.com/).
+Python library for controlling the [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) from [Sequent Microsystems](https://sequentmicrosystems.com/).
 
 It supports Python 2.7, Python 3.7 and newer.
+
+## Prerequisites
+
+<details>
+<summary>1. Enable I2C communication</summary>
+
+Follow the [Enable I2C communication](https://github.com/SequentMicrosystems/megaind-rpi#prerequisites) instructions from the CLI README.
+
+</details>
+
+<details>
+<summary>2. Activate a Python virtual environment</summary>
+
+Modern versions of Raspberry Pi OS (and most Linux distributions) prevent installing Python packages system-wide with `pip` to protect system tools. A virtual environment is required.
+
+Activate your virtual environment before installing or using the library:
+
+```bash
+source ~/venv/bin/activate
+```
+
+If you don't have one yet, create it first (only needed once):
+
+```bash
+python3 -m venv ~/venv
+```
+
+</details>
 
 ## Installation
 
 Install the package with:
 ```bash
-sudo pip install SMmegaind
+pip install SMmegaind
 ```
 
 To upgrade to the latest version:
 ```bash
-sudo pip install --upgrade SMmegaind
+pip install --upgrade SMmegaind
 ```
 
 ## Quick Start
