@@ -5,7 +5,7 @@
 
 ![Industrial Automation Stackable Card for Raspberry Pi](res/New_Industrial.png)
 
-## [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) by Sequent Microsystems.
+## [Industrial Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/industrial-automation-for-raspberry-pi) by [Sequent Microsystems](https://sequentmicrosystems.com/).
 
 The command line interface (CLI) included in this repository gives you full access to every feature of the card. It is the quickest way to get started and is all you need to operate the card.
 
