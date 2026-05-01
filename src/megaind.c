@@ -2,7 +2,7 @@
  * rtd.c:
  *	Command-line interface to the Raspberry
  *	Pi's MEGAS-RTD board.
- *	Copyright (c) 2016-2022 Sequent Microsystem
+ *	Copyright (c) 2016-2026 Sequent Microsystem
  *	<http://www.sequentmicrosystem.com>
  ***********************************************************************
  *	Author: Alexandru Burcea
@@ -21,12 +21,12 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)9
+#define VERSION_MINOR	(int)10
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
 char *warranty =
-	"	       Copyright (c) 2016-2025 Sequent Microsystems\n"
+	"	       Copyright (c) 2016-2026 Sequent Microsystems\n"
 		"                                                             \n"
 		"		This program is free software; you can redistribute it and/or modify\n"
 		"		it under the terms of the GNU Leser General Public License as published\n"
@@ -186,7 +186,7 @@ int doVersion(int argc, char *argv[])
 {
 	UNUSED(argc);
 	UNUSED(argv);
-	printf("megaind v%d.%d.%d Copyright (c) 2016 - 2020 Sequent Microsystems\n",
+	printf("megaind v%d.%d.%d Copyright (c) 2016 - 2026 Sequent Microsystems\n",
 	VERSION_BASE, VERSION_MAJOR, VERSION_MINOR);
 	printf("\nThis is free software with ABSOLUTELY NO WARRANTY.\n");
 	printf("For details type: megaind -warranty\n");

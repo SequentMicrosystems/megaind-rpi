@@ -861,9 +861,9 @@ int doIInCalRst(int argc, char *argv[])
 int doUOutCal(int argc, char *argv[]);
 const CliCmdType CMD_UOUT_CAL =
 	{"uoutcal", 2, &doUOutCal,
-		"\tuoutcal:		Calibrate one 0-10V output channel, the calibration must be done in 2 points at min 5V apart\n",
+		"\tuoutcal:		Calibrate one +/-10V output channel, the calibration must be done in 2 points at min 5V apart\n",
 		"\tUsage:		megaind <id> uoutcal <channel> <value(V)>\n", "",
-		"\tExample:		megaind 0 uoutcal 2 0.5; Calibrate the 0-10V output  channel #2 on Board #0 at 0.5V\n"};
+		"\tExample:		megaind 0 uoutcal 2 0.5; Calibrate the +/-10V output  channel #2 on Board #0 at 0.5V\n"};
 
 int doUOutCal(int argc, char *argv[])
 {
@@ -889,12 +889,12 @@ int doUOutCal(int argc, char *argv[])
 		}
 
 		val = atof(argv[4]);
-		if ( (val < 0) || (val > 10))
+		if ( (val < -10) || (val > 10))
 		{
-			printf("0-10V input calibration value out of range!\n");
+			printf("+/-10V input calibration value out of range!\n");
 			return ERROR;
 		}
-		raw = (u16)ceil(val * VOLT_TO_MILIVOLT);
+		raw = (s16)ceil(val * VOLT_TO_MILIVOLT);
 		memcpy(buff, &raw, 2);
 		buff[2] = ch + CAL_0_10V_OUT_START_ID - 1;
 		buff[3] = CALIBRATION_KEY;
