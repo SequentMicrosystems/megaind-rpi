@@ -152,7 +152,7 @@ def set0_10Out(stack, channel, value):
     checkChannel(channel)
     hwAdd = checkStack(stack)
     bus = smbus2.SMBus(BUS_NO)
-    if value < 0 or value > 10:
+    if value < -10 or value > 10:
         raise ValueError("Invalid value!")
     try:
         bus.write_word_data(hwAdd, U_0_10_OUT_VAL1_ADD + (2 * (channel - 1)), int(value * 1000))
