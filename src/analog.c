@@ -477,9 +477,9 @@ int doODFreqWrite(int argc, char *argv[])
 			return ERROR;
 		}
 		frequency = atoi(argv[4]);
-		if (frequency < 10 || frequency > 6400)
+		if (frequency < 10 || frequency > 64000)
 		{
-			printf("Invalid PWM frequency value, must be 10..6400 \n");
+			printf("Invalid PWM frequency value, must be 10..64000 \n");
 			return ERROR;
 		}
 
