@@ -21,7 +21,7 @@
 
 #define VERSION_BASE	(int)1
 #define VERSION_MAJOR	(int)1
-#define VERSION_MINOR	(int)11
+#define VERSION_MINOR	(int)12
 
 #define UNUSED(X) (void)X      /* To avoid gcc/g++ warnings */
 
@@ -347,6 +347,43 @@ int doVbRead(int argc, char *argv[])
 	return OK;
 }
 
+int doFlashSave(int argc, char *argv[]);
+const CliCmdType CMD_F_SAVE =
+{
+	"fsv",
+	2,
+	&doFlashSave,
+	"\tfsv		Save all seetigs in flash, up to frimware V4.14, te save is done automatically \n",
+	"\tUsage:		megaind <stack> fsv\n",
+	"",
+	"\tExample:		megaind 0 fsv  Save all settings inflash \n"};
+
+int doFlashSave(int argc, char *argv[])
+{
+	int dev = -1;
+	u8 buff;
+	int resp = 0;
+
+	if (argc != 3)
+	{
+		return ARG_CNT_ERR;
+	}
+	dev = doBoardInit(atoi(argv[1]));
+	if (dev <= 0)
+	{
+		return ERROR;
+	}
+	buff = PARAM_SAVE_KEY;
+	resp = i2cMem8Write(dev, I2C_MEM_SAVE_PARAM, &buff, 1);
+	if (FAIL == resp)
+	{
+		printf("Fail to send save command!\n");
+		return ERROR;
+	}
+	printf("OK\n");
+	return OK;
+}
+
 int doOwbGet(int argc, char *argv[]);
 const CliCmdType CMD_OWB_RD =
 	{
@@ -609,6 +646,7 @@ const CliCmdType *gCmdArray[] =
 	&CMD_OWB_ID_RD,
 	&CMD_OWB_SNS_CNT_RD,
 	&CMD_OWB_SCAN,
+	&CMD_F_SAVE,
 	NULL}; //null terminated array of cli structure pointers
 
 int main(int argc, char *argv[])
