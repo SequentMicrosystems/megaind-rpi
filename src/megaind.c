@@ -361,8 +361,9 @@ const CliCmdType CMD_F_SAVE =
 int doFlashSave(int argc, char *argv[])
 {
 	int dev = -1;
-	u8 buff;
+	u8 buff[2];
 	int resp = 0;
+	u16 key = 0;
 
 	if (argc != 3)
 	{
@@ -373,8 +374,9 @@ int doFlashSave(int argc, char *argv[])
 	{
 		return ERROR;
 	}
-	buff = PARAM_SAVE_KEY;
-	resp = i2cMem8Write(dev, I2C_MEM_SAVE_PARAM, &buff, 1);
+	key = PARAM_SAVE_KEY;
+	memcpy(buff, &key, 2);
+	resp = i2cMem8Write(dev, I2C_MEM_SAVE_PARAM, buff, 2);
 	if (FAIL == resp)
 	{
 		printf("Fail to send save command!\n");
